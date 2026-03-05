@@ -5,19 +5,9 @@ import { Leaf } from "lucide-react";
 
 const galleryImages = [
     {
-        url: "/img/rd-lab.png",
-        title: "Seed Research Lab",
-        category: "R&D"
-    },
-    {
         url: "/img/field-research.png",
         title: "Growth Monitoring",
         category: "Field"
-    },
-    {
-        url: "/img/seed-lab.png",
-        title: "Quality Selection",
-        category: "Processing"
     },
     {
         url: "/img/paddy-field.png",
@@ -33,16 +23,6 @@ const galleryImages = [
         url: "/img/maize-field.png",
         title: "Maize Crop Selection",
         category: "Field"
-    },
-    {
-        url: "/img/sindhuja.jpeg",
-        title: "Premium Paddy Seeds",
-        category: "Products"
-    },
-    {
-        url: "/img/vcs-aman.png",
-        title: "Quality Seed Samples",
-        category: "Products"
     },
     {
         url: "/img/agriculture_hero_banner.png",

@@ -44,6 +44,56 @@ export default function About() {
                 </div>
             </section>
 
+            {/* Founder's Message Section */}
+            <section className="section-padding bg-gray-50 border-t border-b border-gray-100">
+                <div className="container-custom">
+                    <div className="flex flex-col lg:flex-row gap-16 items-center">
+                        <div data-aos="fade-right" className="lg:w-1/3">
+                            <div className="relative group">
+                                <div className="absolute -inset-4 bg-gradient-to-tr from-brand-green to-brand-red opacity-20 blur-2xl group-hover:opacity-30 transition-opacity duration-500 rounded-full"></div>
+                                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                                    <img
+                                        src="/img/founder.png"
+                                        alt="Praneeth Lakkaram - Founder of Venus Crop Science"
+                                        className="w-full aspect-[4/5] object-cover"
+                                    />
+                                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+                                        <h3 className="text-xl font-bold">Praneeth Lakkaram</h3>
+                                        <p className="text-sm text-gray-300">Founder & Visionary</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-aos="fade-left" className="lg:w-2/3">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-green/10 text-brand-green font-bold text-sm mb-6">
+                                <Leaf className="h-4 w-4" />
+                                Founder's Message
+                            </div>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-gray-900 leading-tight">
+                                Empowering Farmers Through <span className="text-brand-green">Innovation</span> & Quality
+                            </h2>
+                            <div className="space-y-6 text-gray-700 leading-relaxed italic text-lg">
+                                <p>
+                                    "Praneeth Lakkaram is the Founder of Venus Crop Science, an agricultural seed company established in 2021 with a clear mission to support farmers through quality seeds, innovation, and reliable crop solutions."
+                                </p>
+                                <p>
+                                    "Coming from a background closely connected to agriculture, Praneeth understood the real challenges faced by farmers — low productivity, lack of reliable seed quality, and limited access to proper crop guidance. With a strong passion for improving farming outcomes, he founded Venus Crop Science to bridge the gap between scientific seed technology and farmers’ needs."
+                                </p>
+                                <p>
+                                    "Under his leadership, the company focuses on developing and supplying high-quality paddy, maize, and vegetable seeds that help farmers achieve better yields and sustainable growth. Praneeth believes that the future of agriculture depends on combining traditional farming knowledge with modern research and seed innovation."
+                                </p>
+                                <p>
+                                    "His vision is to build Venus Crop Science into a trusted agricultural brand that empowers farmers, strengthens dealer networks, and contributes to the progress of Indian agriculture."
+                                </p>
+                                <p className="font-semibold text-gray-900 not-italic">
+                                    "With dedication, transparency, and farmer-first values, Praneeth continues to lead the company toward creating long-term value for farmers, partners, and the agricultural community."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Our Reach Map Section */}
             <section className="section-padding bg-gray-50 border-t border-b border-gray-100">
                 <div className="container-custom">
