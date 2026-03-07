@@ -451,7 +451,7 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
 
 function ProductsContent() {
     const searchParams = useSearchParams();
-    const [activeCategory, setActiveCategory] = useState("All");
+    const [activeCategory, setActiveCategory] = useState(productsData[0].category);
 
     useEffect(() => {
         const categoryParam = searchParams.get("category");
@@ -460,11 +460,9 @@ function ProductsContent() {
         }
     }, [searchParams]);
 
-    const categories = ["All", ...productsData.map(p => p.category)];
+    const categories = productsData.map(p => p.category);
 
-    const filteredProducts = activeCategory === "All"
-        ? productsData
-        : productsData.filter(p => p.category === activeCategory);
+    const filteredProducts = productsData.filter(p => p.category === activeCategory);
 
     return (
         <>
