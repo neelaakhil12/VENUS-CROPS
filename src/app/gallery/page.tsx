@@ -106,7 +106,7 @@ export default function Gallery() {
             <section className="pb-20 bg-gray-50 min-h-[60vh]">
                 <div className="container-custom">
                     <div className={`grid gap-6 ${filter === "Videos"
-                        ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-2 max-w-6xl mx-auto gap-10"
+                        ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-2 max-w-6xl mx-auto md:gap-10"
                         : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                         }`}>
                         {filteredItems.map((item, i) => (

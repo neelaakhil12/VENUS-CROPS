@@ -33,8 +33,8 @@ const Navbar = () => {
                 }`}
         >
             <div className="container-custom flex justify-between items-center">
-                <Link href="/" className="flex items-center">
-                    <img src="/logo.png" alt="Venus Crop Science Logo" className="h-16 md:h-20 w-auto object-contain" />
+                <Link href="/" className="flex items-center shrink-0">
+                    <img src="/logo.png" alt="Venus Crop Science Logo" className="h-12 sm:h-16 md:h-20 w-auto object-contain" />
                 </Link>
 
                 {/* Desktop Menu */}
