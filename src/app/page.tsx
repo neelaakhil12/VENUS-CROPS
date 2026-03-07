@@ -29,7 +29,7 @@ export default function Home() {
         {images.map((img, index) => (
           <div
             key={img}
-            className={`absolute inset-0 z-0 bg-cover bg-top bg-no-repeat transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100" : "opacity-0"
+            className={`absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100" : "opacity-0"
               }`}
             style={{
               backgroundImage: `url('${img}')`,
