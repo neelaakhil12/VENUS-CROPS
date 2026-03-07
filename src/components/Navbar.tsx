@@ -57,7 +57,7 @@ const Navbar = () => {
                         download
                         className="hidden md:flex items-center gap-2 border-2 border-brand-green text-brand-green px-5 py-2 rounded-full font-bold transition-all shadow-sm hover:bg-brand-green hover:text-white active:scale-95 text-sm"
                     >
-                        <Download className="h-4 w-4" /> Catalogue
+                        <Download className="h-4 w-4" /> Catalog
                     </a>
                     <button
                         onClick={() => setIsModalOpen(true)}
@@ -95,7 +95,7 @@ const Navbar = () => {
                         onClick={() => setIsOpen(false)}
                         className="w-full flex items-center justify-center gap-2 border-2 border-brand-green text-brand-green px-6 py-4 rounded-xl font-bold transition-all shadow-sm"
                     >
-                        <Download className="h-5 w-5" /> Product Catalogue
+                        <Download className="h-5 w-5" /> Product Catalog
                     </a>
                     <button
                         onClick={() => {
