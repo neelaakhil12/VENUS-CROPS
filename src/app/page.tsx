@@ -40,7 +40,7 @@ export default function Home() {
         <div className="container-custom relative z-10 text-center">
           <p
             data-aos="fade-down"
-            className="text-brand-red font-bold tracking-widest uppercase text-sm md:text-base mb-4"
+            className="text-blue-400 font-bold tracking-widest uppercase text-sm md:text-base mb-4"
           >
             The Solution for Agriculture Needs
           </p>
