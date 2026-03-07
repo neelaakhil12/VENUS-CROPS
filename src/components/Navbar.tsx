@@ -65,10 +65,10 @@ const Navbar = () => {
                     >
                         <ClipboardList className="h-4 w-4" /> Apply for Dealership
                     </button>
-                    <div className="md:hidden flex items-center">
+                    <div className="md:hidden flex items-center shrink-0 pr-1">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="text-gray-700"
+                            className="text-gray-700 p-2 -mr-2"
                         >
                             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
                         </button>

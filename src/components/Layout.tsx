@@ -18,9 +18,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
             <Navbar />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow w-full overflow-x-hidden">{children}</main>
             <Footer />
 
             {/* Floating WhatsApp Button */}
@@ -28,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 group"
+                className="fixed bottom-5 right-5 md:bottom-6 md:right-6 z-50 group"
                 aria-label="Chat on WhatsApp"
             >
                 {/* Pulse ring */}
