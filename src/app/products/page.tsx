@@ -1,7 +1,8 @@
 "use client";
 
 import Layout from "@/components/Layout";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Leaf, Info, Package, Ruler, Calendar, CheckCircle2 } from "lucide-react";
 
 interface SeedVariety {
@@ -34,7 +35,7 @@ interface CategoryGroup {
 
 const productsData: CategoryGroup[] = [
     {
-        category: "Paddy Seeds",
+        category: "Paddy Varieties",
         varieties: [
             {
                 name: "Sindhuja (Bold Variety)",
@@ -113,7 +114,7 @@ const productsData: CategoryGroup[] = [
                 sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
                 resistant_to: "BLB (Bacterial Leaf Blight)",
                 suitability: "Quality consumption",
-                image: "/img/vcs-rnr-15048-new.png"
+                image: "/img/vcs-rnr-15048-upd.png"
             },
             {
                 name: "VCS-Sampoorna",
@@ -129,7 +130,7 @@ const productsData: CategoryGroup[] = [
                 sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
                 resistant_to: "BLB (Bacterial Leaf Blight)",
                 suitability: "Quality consumption",
-                image: "/img/vcs-sampoorna.png"
+                image: "/img/vcs-sampoorna-upd.png"
             },
             {
                 name: "Sharma-55",
@@ -145,12 +146,12 @@ const productsData: CategoryGroup[] = [
                 sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
                 resistant_to: "BLB (Bacterial Leaf Blight)",
                 suitability: "Quality consumption",
-                image: "/img/sharma-55.png"
+                image: "/img/sharma-55-upd.png"
             }
         ]
     },
     {
-        category: "Fodder Jowar Seeds",
+        category: "Fodder Jowar Varieties",
         varieties: [
             {
                 name: "Akhanda",
@@ -229,7 +230,7 @@ const productsData: CategoryGroup[] = [
         ]
     },
     {
-        category: "Maize Seeds",
+        category: "Maize Varieties",
         varieties: [
             {
                 name: "VCS-8875",
@@ -282,7 +283,7 @@ const productsData: CategoryGroup[] = [
         ]
     },
     {
-        category: "Vegetable Seeds",
+        category: "Vegetable Varieties",
         varieties: [
             {
                 name: "Morocco Coriander",
@@ -448,8 +449,16 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
     );
 }
 
-export default function Products() {
+function ProductsContent() {
+    const searchParams = useSearchParams();
     const [activeCategory, setActiveCategory] = useState("All");
+
+    useEffect(() => {
+        const categoryParam = searchParams.get("category");
+        if (categoryParam) {
+            setActiveCategory(categoryParam);
+        }
+    }, [searchParams]);
 
     const categories = ["All", ...productsData.map(p => p.category)];
 
@@ -458,7 +467,7 @@ export default function Products() {
         : productsData.filter(p => p.category === activeCategory);
 
     return (
-        <Layout>
+        <>
             {/* Banner */}
             <section className="bg-brand-green pt-32 pb-20 text-white relative overflow-hidden">
                 <div className="container-custom relative z-10 text-center">
@@ -497,7 +506,6 @@ export default function Products() {
                     {filteredProducts.map((catGroup, groupIdx) => (
                         <div key={groupIdx} className="mb-20 last:mb-0">
                             <h2 data-aos="fade-right" className="text-3xl font-bold mb-10 text-gray-900 border-l-8 border-brand-green pl-6 flex items-center gap-3">
-                                <Leaf className="text-brand-green h-8 w-8" />
                                 {catGroup.category}
                             </h2>
 
@@ -510,6 +518,16 @@ export default function Products() {
                     ))}
                 </div>
             </section>
+        </>
+    );
+}
+
+export default function Products() {
+    return (
+        <Layout>
+            <Suspense fallback={<div className="pt-40 text-center text-gray-500">Loading Products...</div>}>
+                <ProductsContent />
+            </Suspense>
         </Layout>
     );
 }

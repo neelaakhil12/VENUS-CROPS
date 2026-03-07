@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Leaf } from "lucide-react";
+import { Menu, X, Leaf, ClipboardList } from "lucide-react";
+import DealershipModal from "./DealershipModal";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -19,6 +21,7 @@ const Navbar = () => {
     const navLinks = [
         { name: "Home", href: "/" },
         { name: "Products", href: "/products" },
+        { name: "R&D", href: "/rd" },
         { name: "About Us", href: "/about" },
         { name: "Gallery", href: "/gallery" },
         { name: "Contact Us", href: "/contact" },
@@ -35,12 +38,12 @@ const Navbar = () => {
                 </Link>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex space-x-8 items-center">
+                <div className="hidden md:flex items-center space-x-2">
                     {navLinks.map((link) => (
                         <Link
                             key={link.name}
                             href={link.href}
-                            className="font-medium text-gray-700 hover:text-brand-red transition-colors"
+                            className="px-4 py-2 font-medium text-gray-700 hover:bg-brand-red hover:text-white transition-all duration-300 rounded-md"
                         >
                             {link.name}
                         </Link>
@@ -48,13 +51,21 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Menu Button */}
-                <div className="md:hidden flex items-center">
+                <div className="flex items-center space-x-4">
                     <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="text-gray-700"
+                        onClick={() => setIsModalOpen(true)}
+                        className="hidden md:flex items-center gap-2 bg-brand-red text-white px-5 py-2.5 rounded-full font-bold transition-all shadow-md hover:scale-105 active:scale-95 text-sm"
                     >
-                        {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                        <ClipboardList className="h-4 w-4" /> Apply for Dealership
                     </button>
+                    <div className="md:hidden flex items-center">
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="text-gray-700"
+                        >
+                            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -71,8 +82,18 @@ const Navbar = () => {
                             {link.name}
                         </Link>
                     ))}
+                    <button
+                        onClick={() => {
+                            setIsOpen(false);
+                            setIsModalOpen(true);
+                        }}
+                        className="w-full flex items-center justify-center gap-2 bg-brand-red text-white px-6 py-4 rounded-xl font-bold transition-all shadow-lg"
+                    >
+                        <ClipboardList className="h-5 w-5" /> Apply for Dealership
+                    </button>
                 </div>
             )}
+            <DealershipModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </nav>
     );
 };

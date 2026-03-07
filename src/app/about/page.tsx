@@ -185,41 +185,6 @@ export default function About() {
                 </div>
             </section>
 
-            {/* Research & Development */}
-            <section className="section-padding bg-gray-900 text-white">
-                <div className="container-custom">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div data-aos="fade-right" className="relative">
-                            <div className="aspect-video bg-gray-800 rounded-3xl overflow-hidden shadow-2xl">
-                                <img src="/img/rd-lab.png" alt="R&D Lab" className="w-full h-full object-cover" />
-                            </div>
-                            <div className="absolute -bottom-6 -right-6 bg-brand-green p-8 rounded-2xl shadow-xl">
-                                <Microscope className="h-12 w-12 text-white" />
-                            </div>
-                        </div>
-                        <div data-aos="fade-left">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-8">Pioneering Through <span className="text-brand-green">Research & Development</span></h2>
-                            <p className="text-gray-400 mb-8 leading-relaxed">
-                                Our R&D focus is at the heart of our operations. We invest heavily in scientific research to develop seeds that are not just high-yielding but also resilient to the ever-changing climate and pest pressures.
-                            </p>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                {[
-                                    "High-yield seed development",
-                                    "Disease resistance breeding",
-                                    "Climate adaptability",
-                                    "Enhanced germination",
-                                    "Sustainable solutions"
-                                ].map((item, i) => (
-                                    <div key={i} className="flex items-center gap-3">
-                                        <CheckCircle2 className="h-5 w-5 text-brand-red" />
-                                        <span className="text-gray-300">{item}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             {/* Careers Section */}
             <section className="section-padding bg-white">

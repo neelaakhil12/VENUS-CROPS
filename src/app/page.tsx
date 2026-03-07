@@ -3,19 +3,40 @@
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import { Leaf, ShieldCheck, Zap, Users, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [
+    "/img/hero/hero-1.jpg",
+    "/img/hero/hero-2.jpg",
+    "/img/hero/hero-3.jpg",
+    "/img/hero/hero-4.jpg",
+    "/img/hero/hero-5.jpg",
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [images.length]);
+
   return (
     <Layout>
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center text-white overflow-hidden">
-        <div
-          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('/img/agriculture_hero_banner.png')",
-            filter: "brightness(0.4)"
-          }}
-        ></div>
+        {images.map((img, index) => (
+          <div
+            key={img}
+            className={`absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${index === currentImage ? "opacity-100" : "opacity-0"
+              }`}
+            style={{
+              backgroundImage: `url('${img}')`,
+              filter: "brightness(0.4)",
+            }}
+          ></div>
+        ))}
         <div className="container-custom relative z-10 text-center">
           <h1
             data-aos="fade-up"
