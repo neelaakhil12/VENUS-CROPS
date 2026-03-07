@@ -134,7 +134,7 @@ export default function Home() {
       {/* Why Choose Us */}
       <section className="section-padding bg-gray-50">
         <div className="container-custom">
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10">
             <h2 data-aos="fade-up" className="text-3xl md:text-5xl font-bold mb-6">
               Why Choose <span className="text-brand-green">Venus Seeds?</span>
             </h2>
@@ -189,7 +189,7 @@ export default function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 bg-brand-green relative overflow-hidden">
+      <section className="py-12 bg-brand-green relative overflow-hidden">
         <div className="container-custom relative z-10 text-center text-white">
           <h2 data-aos="zoom-in" className="text-3xl md:text-5xl font-bold mb-8">
             Ready to Grow Better?

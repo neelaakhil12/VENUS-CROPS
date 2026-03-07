@@ -469,7 +469,7 @@ function ProductsContent() {
     return (
         <>
             {/* Banner */}
-            <section className="bg-brand-green pt-32 pb-20 text-white relative overflow-hidden">
+            <section className="bg-brand-green pt-24 pb-12 text-white relative overflow-hidden">
                 <div className="container-custom relative z-10 text-center">
                     <h1 data-aos="fade-down" className="text-4xl md:text-6xl font-bold mb-6">Our Premium Seeds</h1>
                     <p data-aos="fade-up" className="text-lg text-green-50 max-w-2xl mx-auto">
@@ -504,8 +504,8 @@ function ProductsContent() {
             <section className="section-padding bg-gray-50">
                 <div className="container-custom">
                     {filteredProducts.map((catGroup, groupIdx) => (
-                        <div key={groupIdx} className="mb-20 last:mb-0">
-                            <h2 data-aos="fade-right" className="text-3xl font-bold mb-10 text-gray-900 border-l-8 border-brand-green pl-6 flex items-center gap-3">
+                        <div key={groupIdx} className="mb-12 last:mb-0">
+                            <h2 data-aos="fade-right" className="text-3xl font-bold mb-6 text-gray-900 border-l-8 border-brand-green pl-6 flex items-center gap-3">
                                 {catGroup.category}
                             </h2>
 

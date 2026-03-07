@@ -38,7 +38,7 @@ export default function RD() {
     return (
         <Layout>
             {/* Banner Section */}
-            <section className="bg-brand-red pt-32 pb-20 text-white relative overflow-hidden">
+            <section className="bg-brand-red pt-24 pb-12 text-white relative overflow-hidden">
                 <div className="container-custom relative z-10 text-center">
                     <h1 data-aos="fade-down" className="text-4xl md:text-6xl font-bold mb-6">Research & Development</h1>
                     <p data-aos="fade-up" className="text-lg text-red-100 max-w-2xl mx-auto italic">
@@ -154,7 +154,7 @@ export default function RD() {
             {/* Call to Action */}
             <section className="section-padding bg-white">
                 <div className="container-custom">
-                    <div className="bg-brand-green rounded-[3rem] p-12 md:p-20 text-center text-white relative overflow-hidden">
+                    <div className="bg-brand-green rounded-[3rem] p-10 md:p-14 text-center text-white relative overflow-hidden">
                         <div className="relative z-10">
                             <Sprout className="h-16 w-16 mx-auto mb-8 opacity-50" />
                             <h2 className="text-3xl md:text-5xl font-bold mb-8">Ready to see our <br />seeds in action?</h2>

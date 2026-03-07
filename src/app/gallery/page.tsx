@@ -73,7 +73,7 @@ export default function Gallery() {
     return (
         <Layout>
             {/* Hero Section */}
-            <section className="bg-brand-red pt-32 pb-20 text-white relative overflow-hidden">
+            <section className="bg-brand-red pt-24 pb-12 text-white relative overflow-hidden">
                 <div className="container-custom relative z-10 text-center">
                     <h1 data-aos="fade-down" className="text-4xl md:text-6xl font-bold mb-6">Visual Gallery</h1>
                     <p data-aos="fade-up" className="text-lg text-red-100 max-w-2xl mx-auto">
@@ -85,7 +85,7 @@ export default function Gallery() {
             </section>
 
             {/* Filter Section */}
-            <section className="pt-16 pb-8 bg-gray-50">
+            <section className="pt-8 pb-4 bg-gray-50">
                 <div className="container-custom flex justify-center gap-4">
                     {["Images", "Videos"].map(cat => (
                         <button
@@ -103,7 +103,7 @@ export default function Gallery() {
             </section>
 
             {/* Gallery Grid */}
-            <section className="pb-20 bg-gray-50 min-h-[60vh]">
+            <section className="pb-12 bg-gray-50 min-h-[60vh]">
                 <div className="container-custom">
                     <div className={`grid gap-6 ${filter === "Videos"
                         ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-2 max-w-6xl mx-auto md:gap-10"
@@ -168,9 +168,9 @@ export default function Gallery() {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 bg-white border-t border-gray-100">
+            <section className="py-12 bg-white border-t border-gray-100">
                 <div className="container-custom text-center">
-                    <div data-aos="fade-up" className="max-w-3xl mx-auto bg-brand-green/5 p-12 rounded-[3rem] border border-brand-green/10">
+                    <div data-aos="fade-up" className="max-w-3xl mx-auto bg-brand-green/5 p-8 rounded-[3rem] border border-brand-green/10">
                         <h2 className="text-3xl font-bold mb-6 text-gray-900">Experience Agricultural Innovation</h2>
                         <p className="text-gray-600 mb-8 leading-relaxed">
                             Our seeds are the result of years of dedicated research and a deep commitment to farmer success. Explore our products to see how we can transform your yields.
