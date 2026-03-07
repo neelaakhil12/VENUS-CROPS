@@ -41,6 +41,13 @@ const galleryItems = [
         title: "Agricultural Excellence",
         category: "Videos",
         type: "video"
+    },
+    {
+        url: "/videos/venus_secondary_video.mp4",
+        thumbnail: "/img/field-research.png",
+        title: "Sustainable Farming Practices",
+        category: "Videos",
+        type: "video"
     }
 ];
 
