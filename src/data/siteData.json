@@ -1,0 +1,86 @@
+{
+    "company": {
+        "name": "Venus Crop Science",
+        "founder": "Praneeth Lakkaram",
+        "established": 2021,
+        "tagline": "The Solution for Agriculture Needs",
+        "contact": {
+            "email": "Venuscropscience@gmail.com",
+            "phone": "+91 8639171139",
+            "address": "Near NH-44 Highway, Govindpet Road, Brahmanpally Village, Telangana – 503224"
+        }
+    },
+    "home": {
+        "hero": {
+            "title": "Nurturing Life with Superior Seeds",
+            "description": "Venus Crop Science - Providing high-quality seeds to farmers for better productivity, higher yield, and sustainable farming solutions."
+        },
+        "about": {
+            "title": "A Dedicated Partner in Agricultural Success",
+            "description": "Venus Crop Science is a dedicated agricultural seeds company committed to providing high-quality seeds to farmers for better productivity and profitability."
+        }
+    },
+    "products": [
+        {
+            "category": "Paddy Varieties",
+            "varieties": [
+                {
+                    "name": "Sindhuja (Bold Variety)",
+                    "type": "Improved Paddy Seeds",
+                    "packing": "10kg",
+                    "seed_per_acre": "15-20kg",
+                    "height": "105-110cm",
+                    "duration": "120-125 days",
+                    "grain_type": "Medium Bold",
+                    "panicle_length": "25-26cm",
+                    "grains_per_panicle": "380-400",
+                    "disease_reaction": "Tolerant to all major Diseases",
+                    "sowing_time": "Kharif (May-June), Rabi (Nov-Dec)",
+                    "resistant_to": "BLB (Bacterial Leaf Blight)",
+                    "image": "/img/sindhuja.jpeg"
+                },
+                {
+                    "name": "VCS-AMAN (Fine Variety)",
+                    "type": "Improved Paddy Seeds",
+                    "packing": "10kg",
+                    "seed_per_acre": "10kg",
+                    "height": "115-120cm",
+                    "duration": "130-135 days",
+                    "grain_type": "Medium Fine",
+                    "panicle_length": "25-26cm",
+                    "grains_per_panicle": "350-400",
+                    "disease_reaction": "Tolerant to all major Diseases",
+                    "sowing_time": "Kharif (May-June), Rabi (Nov-Dec)",
+                    "resistant_to": "BLB (Bacterial Leaf Blight)",
+                    "image": "/img/vcs-aman.png"
+                }
+            ]
+        },
+        {
+            "category": "Maize Varieties",
+            "varieties": [
+                {
+                    "name": "VCS-8875",
+                    "type": "Hybrid Type",
+                    "packing": "4 kg",
+                    "duration": "120 days",
+                    "image": "/img/vcs-8875.png"
+                }
+            ]
+        }
+    ],
+    "gallery": [
+        {
+            "url": "/img/field-research.png",
+            "title": "Growth Monitoring",
+            "category": "Field",
+            "type": "image"
+        },
+        {
+            "url": "/videos/field_research_video.mp4",
+            "title": "Agricultural Excellence",
+            "category": "Videos",
+            "type": "video"
+        }
+    ]
+}

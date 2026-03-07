@@ -2,7 +2,7 @@
 
 import Layout from "@/components/Layout";
 import { Leaf, Play, X, Volume2, VolumeX } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const galleryItems = [
     {
@@ -52,7 +52,14 @@ const galleryItems = [
 ];
 
 export default function Gallery() {
+    const [data, setData] = useState<any>(null);
     const [filter, setFilter] = useState("Images");
+
+    useEffect(() => {
+        fetch("/api/data")
+            .then(res => res.json())
+            .then(setData);
+    }, []);
 
     const handleVideoPlay = (e: React.SyntheticEvent<HTMLVideoElement>) => {
         const playingVideo = e.currentTarget;
@@ -64,7 +71,11 @@ export default function Gallery() {
         });
     };
 
-    const filteredItems = galleryItems.filter(item =>
+    if (!data) return <div className="min-h-screen flex items-center justify-center font-bold text-brand-green">Loading Gallery...</div>;
+
+    const galleryItems = data.gallery;
+
+    const filteredItems = galleryItems.filter((item: any) =>
         item.category === filter ||
         (filter === "Images" && item.type === "image") ||
         (filter === "Videos" && item.type === "video")
@@ -109,7 +120,7 @@ export default function Gallery() {
                         ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-2 max-w-6xl mx-auto md:gap-10"
                         : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
                         }`}>
-                        {filteredItems.map((item, i) => (
+                        {filteredItems.map((item: any, i: number) => (
                             <div
                                 key={i}
                                 data-aos="fade-up"

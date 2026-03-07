@@ -33,271 +33,7 @@ interface CategoryGroup {
     varieties: SeedVariety[];
 }
 
-const productsData: CategoryGroup[] = [
-    {
-        category: "Paddy Varieties",
-        varieties: [
-            {
-                name: "Sindhuja (Bold Variety)",
-                type: "Improved Paddy Seeds",
-                packing: "10kg",
-                seed_per_acre: "15-20kg",
-                height: "105-110cm",
-                duration: "120-125 days",
-                grain_type: "Medium Bold",
-                panicle_length: "25-26cm",
-                grains_per_panicle: "380-400",
-                disease_reaction: "Tolerant to all major Diseases",
-                sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
-                resistant_to: "BLB (Bacterial Leaf Blight)",
-                image: "/img/sindhuja.jpeg"
-            },
-            {
-                name: "VCS-AMAN (Fine Variety)",
-                type: "Improved Paddy Seeds",
-                packing: "10kg",
-                seed_per_acre: "10kg",
-                height: "115-120cm",
-                duration: "130-135 days",
-                grain_type: "Medium Fine",
-                panicle_length: "25-26cm",
-                grains_per_panicle: "350-400",
-                disease_reaction: "Tolerant to all major Diseases",
-                sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
-                resistant_to: "BLB (Bacterial Leaf Blight)",
-                suitability: "Quality consumption",
-                image: "/img/vcs-aman.png"
-            },
-            {
-                name: "Amulya (Fine Variety)",
-                type: "Improved Paddy Seeds",
-                packing: "10kg",
-                seed_per_acre: "10kg",
-                height: "115-120cm",
-                duration: "130 days",
-                grain_type: "Medium Fine",
-                panicle_length: "25-26cm",
-                grains_per_panicle: "380-400",
-                disease_reaction: "Tolerant to all major Diseases",
-                sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
-                resistant_to: "BLB (Bacterial Leaf Blight)",
-                suitability: "Quality consumption",
-                image: "/img/amulya.jpeg"
-            },
-            {
-                name: "SRI-RAM (Fine Variety)",
-                type: "Improved Paddy Seeds",
-                packing: "10kg",
-                seed_per_acre: "10kg",
-                height: "100-120cm",
-                duration: "140 days",
-                grain_type: "Medium Fine",
-                panicle_length: "24-26cm",
-                grains_per_panicle: "300-320",
-                disease_reaction: "Tolerant to all major Diseases",
-                sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
-                resistant_to: "BLB (Bacterial Leaf Blight)",
-                suitability: "Quality consumption",
-                image: "/img/sriram.png"
-            },
-            {
-                name: "VCS RNR-15048",
-                type: "Improved Paddy Seeds",
-                packing: "10kg",
-                seed_per_acre: "10kg",
-                height: "100-120cm",
-                duration: "120-130 days",
-                grain_type: "Medium Fine",
-                panicle_length: "26-28cm",
-                grains_per_panicle: "370-390",
-                disease_reaction: "Tolerant to all major Diseases",
-                sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
-                resistant_to: "BLB (Bacterial Leaf Blight)",
-                suitability: "Quality consumption",
-                image: "/img/vcs-rnr-15048-upd.png"
-            },
-            {
-                name: "VCS-Sampoorna",
-                type: "Improved Paddy Seeds",
-                packing: "10kg",
-                seed_per_acre: "10kg",
-                height: "110-115cm",
-                duration: "130-140 days",
-                grain_type: "Medium Fine",
-                panicle_length: "26-28cm",
-                grains_per_panicle: "350-370",
-                disease_reaction: "Tolerant to all major Diseases",
-                sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
-                resistant_to: "BLB (Bacterial Leaf Blight)",
-                suitability: "Quality consumption",
-                image: "/img/vcs-sampoorna-upd.png"
-            },
-            {
-                name: "Sharma-55",
-                type: "Improved Paddy Seeds",
-                packing: "10kg",
-                seed_per_acre: "15-20kg",
-                height: "110-115cm",
-                duration: "120-125 days",
-                grain_type: "Medium Bold",
-                panicle_length: "26-27cm",
-                grains_per_panicle: "380-400",
-                disease_reaction: "Tolerant to all major Diseases",
-                sowing_time: "Kharif (May-June), Rabi (Nov-Dec)",
-                resistant_to: "BLB (Bacterial Leaf Blight)",
-                suitability: "Quality consumption",
-                image: "/img/sharma-55-upd.png"
-            }
-        ]
-    },
-    {
-        category: "Fodder Jowar Varieties",
-        varieties: [
-            {
-                name: "Akhanda",
-                type: "Hybrid Seed",
-                packing: "1kg",
-                seed_per_acre: "4kg",
-                height: "10-12 feet",
-                duration: "5 years",
-                cuttings: "60 cuttings",
-                sowing_period: "Kharif and Rabi",
-                spacing: "30*15cm",
-                benefits: [
-                    "Each cut : After 25 days",
-                    "High yielding with best leafy green variety",
-                    "The variety with good tillers, thin stem with narrow leaves",
-                    "Healthy animals and profitable dairy farm",
-                    "The Variety is very succulent dark green and good palatable fodder"
-                ],
-                image: "/img/akhanda.png"
-            },
-            {
-                name: "Jupiter",
-                type: "Hybrid Seeds",
-                packing: "1kg",
-                seed_per_acre: "4kg",
-                height: "8-10 feet",
-                duration: "1 year",
-                cuttings: "12 cuttings",
-                sowing_period: "All seasons",
-                spacing: "30*15cm",
-                benefits: [
-                    "Each cut : After 25 days",
-                    "High yielding with best leafy green variety",
-                    "The variety with good tillers, thin stem with narrow leaves",
-                    "Healthy animals and profitable dairy farm",
-                    "The Variety is very succulent dark green and good palatable fodder"
-                ],
-                image: "/img/jupiter.png"
-            },
-            {
-                name: "Jerssey",
-                type: "Hybrid Seeds",
-                packing: "5kg",
-                seed_per_acre: "15-20kg",
-                height: "7-8 feet",
-                duration: "Single-cut",
-                cuttings: "5 cuttings",
-                sowing_period: "All seasons",
-                benefits: [
-                    "Each cut : After 45-50 days",
-                    "High yielding with best leafy green variety",
-                    "The variety with good tillers, thin stem with narrow leaves",
-                    "Healthy animals and profitable dairy farm",
-                    "The Variety is very succulent dark green and good palatable fodder"
-                ],
-                image: "/img/jerssey.png"
-            },
-            {
-                name: "VCS SX-71",
-                type: "Hybrid Seeds",
-                packing: "3kg",
-                seed_per_acre: "25-30kg",
-                height: "10-12 feet",
-                duration: "Multi-cut",
-                cuttings: "First cut (45-40 days), Next cuts (45-50 days)",
-                sowing_period: "Spring (March-April) and Monsoon (May-August)",
-                benefits: [
-                    "Each cut : After 25 days",
-                    "High yielding with best leafy green variety",
-                    "The variety with good tillers, thin stem with narrow leaves",
-                    "Healthy animals and profitable dairy farm",
-                    "The Variety is very succulent dark green and good palatable fodder"
-                ],
-                image: "/img/vcs-sx-71.png"
-            }
-        ]
-    },
-    {
-        category: "Maize Varieties",
-        varieties: [
-            {
-                name: "VCS-8875",
-                type: "Hybrid Type",
-                packing: "4 kg",
-                seed_per_acre: "8 kg",
-                height: "Medium",
-                duration: "120 days",
-                sowing_time: "Both kharif and Rabi variety",
-                benefits: [
-                    "Yield & Performance: Known for high yield potential, with report It is noted for producing long, uniform, and attractive cobs with 16–18 kernel rows.",
-                    "Adaptability: Suitable for various growing conditions, including areas with low rainfall, and is often cultivated during the Rabi season in India.",
-                    "Plant Structure: The plants are tall and sturdy, featuring a strong root system that provides excellent resistance to lodging (falling over).",
-                    "Usage: Primary use is for grain production, though it can be utilized for silage."
-                ],
-                image: "/img/vcs-8875.png"
-            },
-            {
-                name: "VCS-8842",
-                type: "Hybrid Type",
-                packing: "4 kg",
-                seed_per_acre: "8 kg",
-                height: "180 to 185cm",
-                duration: "110-115days",
-                sowing_time: "Both Kharif and Rabi",
-                benefits: [
-                    "Yield & Performance: Known for high yield potential, with report It is noted for producing long, uniform, and attractive cobs with 16–18 kernel rows.",
-                    "Adaptability: Suitable for various growing conditions, including areas with low rainfall, and is often cultivated during the Rabi season in India.",
-                    "Plant Structure: The plants are tall and sturdy, featuring a strong root system that provides excellent resistance to lodging (falling over).",
-                    "Usage: Primary use is for grain production, though it can be utilized for silage."
-                ],
-                image: "/img/vcs-8842.png"
-            },
-            {
-                name: "VCS-8866",
-                type: "Hybrid Type",
-                packing: "4 kg",
-                seed_per_acre: "8 kg",
-                height: "Medium",
-                duration: "110-115days",
-                sowing_time: "Rabi Speciality variety",
-                benefits: [
-                    "Yield & Performance: Known for high yield potential, with report It is noted for producing long, uniform, and attractive cobs with 16–18 kernel rows.",
-                    "Adaptability: Suitable for various growing conditions, including areas with low rainfall, and is often cultivated during the Rabi season in India.",
-                    "Plant Structure: The plants are tall and sturdy, featuring a strong root system that provides excellent resistance to lodging (falling over).",
-                    "Usage: Primary use is for grain production, though it can be utilized for silage."
-                ],
-                image: "/img/vcs-8866.png"
-            }
-        ]
-    },
-    {
-        category: "Vegetable Varieties",
-        varieties: [
-            {
-                name: "Morocco Coriander",
-                type: "Hybrid Seeds",
-                packing: "2kg",
-                seed_per_acre: "20kg",
-                duration: "30-35 days",
-                sowing_time: "All seasons",
-                benefits: ["High yielding with best leafy green"],
-                image: "/img/morocco-coriander.png"
-            }
-        ]
-    }
-];
+// productsData will be fetched from API
 
 function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: number, category: string }) {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -451,18 +187,24 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
 
 function ProductsContent() {
     const searchParams = useSearchParams();
-    const [activeCategory, setActiveCategory] = useState(productsData[0].category);
+    const [data, setData] = useState<any>(null);
+    const [activeCategory, setActiveCategory] = useState<string>("");
 
     useEffect(() => {
-        const categoryParam = searchParams.get("category");
-        if (categoryParam) {
-            setActiveCategory(categoryParam);
-        }
+        fetch("/api/data")
+            .then(res => res.json())
+            .then(json => {
+                setData(json);
+                const categoryParam = searchParams.get("category");
+                setActiveCategory(categoryParam || json.products[0].category);
+            });
     }, [searchParams]);
 
-    const categories = productsData.map(p => p.category);
+    if (!data) return <div className="pt-40 text-center text-gray-500">Loading Products Library...</div>;
 
-    const filteredProducts = productsData.filter(p => p.category === activeCategory);
+    const productsData = data.products;
+    const categories = productsData.map((p: any) => p.category);
+    const filteredProducts = productsData.filter((p: any) => p.category === activeCategory);
 
     return (
         <>
@@ -482,7 +224,7 @@ function ProductsContent() {
             <section className="py-6 bg-white sticky top-20 z-40 border-b border-gray-100 shadow-sm">
                 <div className="container-custom">
                     <div className="flex overflow-x-auto whitespace-nowrap gap-4 pb-2 scrollbar-hide md:flex-wrap md:justify-center md:pb-0">
-                        {categories.map((cat, i) => (
+                        {categories.map((cat: string, i: number) => (
                             <button
                                 key={i}
                                 onClick={() => setActiveCategory(cat)}
@@ -501,14 +243,14 @@ function ProductsContent() {
             {/* Products Display */}
             <section className="section-padding bg-gray-50">
                 <div className="container-custom">
-                    {filteredProducts.map((catGroup, groupIdx) => (
+                    {filteredProducts.map((catGroup: any, groupIdx: number) => (
                         <div key={groupIdx} className="mb-12 last:mb-0">
                             <h2 data-aos="fade-right" className="text-3xl font-bold mb-6 text-gray-900 border-l-8 border-brand-green pl-6 flex items-center gap-3">
                                 {catGroup.category}
                             </h2>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-                                {catGroup.varieties.map((variety, idx) => (
+                                {catGroup.varieties.map((variety: any, idx: number) => (
                                     <ProductCard key={idx} variety={variety} idx={idx} category={catGroup.category} />
                                 ))}
                             </div>

@@ -1,49 +1,61 @@
 "use client";
 
-import { Leaf, LayoutDashboard, Package, MessageSquare, Settings, LogOut, ArrowUpRight, TrendingUp, Users, ShoppingBag } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Leaf, Package, Images, MapPin, LayoutDashboard, LogOut, ArrowRight, Activity, Users, MessageSquare } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
 
 export default function AdminDashboard() {
-    const [activeTab, setActiveTab] = useState("dashboard");
+    const router = useRouter();
+    const [data, setData] = useState<any>(null);
+
+    useEffect(() => {
+        const isAuth = localStorage.getItem("admin_auth");
+        if (!isAuth) {
+            router.push("/admin/login");
+            return;
+        }
+
+        fetch("/api/data")
+            .then(res => res.json())
+            .then(setData);
+    }, [router]);
+
+    if (!data) return <div className="min-h-screen flex items-center justify-center font-black text-brand-green uppercase tracking-tighter bg-gray-50">Initializing Secure Session...</div>;
 
     const stats = [
-        { title: "Total Products", value: "13", icon: Package, color: "text-blue-600", bg: "bg-blue-50" },
-        { title: "Contact Enquiries", value: "24", icon: MessageSquare, color: "text-brand-green", bg: "bg-green-50" },
-        { title: "Daily Visitors", value: "152", icon: Users, color: "text-brand-red", bg: "bg-red-50" },
-        { title: "Recent Activity", value: "+12%", icon: TrendingUp, color: "text-orange-600", bg: "bg-orange-50" },
-    ];
-
-    const recentEnquiries = [
-        { id: 1, name: "Ramesh Kumar", email: "ramesh@example.com", phone: "+91 98765 43210", subject: "Paddy Seed Bulk Inquiry", date: "2 mins ago" },
-        { id: 2, name: "Suresh Patel", email: "suresh@example.com", phone: "+91 87654 32109", subject: "Maize Crop Duration", date: "1 hour ago" },
-        { id: 3, name: "Amit Singh", email: "amit@example.com", phone: "+91 76543 21098", subject: "Vegetable Seeds Availability", date: "3 hours ago" },
+        { title: "Active Products", value: data.products?.reduce((acc: number, cat: any) => acc + cat.varieties.length, 0) || 0, icon: Package, color: "text-blue-600", bg: "bg-blue-50" },
+        { title: "Gallery Items", value: data.gallery?.length || 0, icon: Images, color: "text-brand-green", bg: "bg-green-50" },
+        { title: "Enquiries", value: "24", icon: MessageSquare, color: "text-brand-red", bg: "bg-red-50" },
+        { title: "Active Regions", value: "11 States", icon: MapPin, color: "text-orange-600", bg: "bg-orange-50" },
     ];
 
     return (
-        <div className="min-h-screen bg-gray-100 flex">
+        <div className="min-h-screen bg-gray-50 flex">
             {/* Sidebar */}
-            <aside className="w-72 bg-white shadow-xl flex flex-col fixed h-full z-20">
-                <div className="p-8 border-b border-gray-100">
-                    <Link href="/" className="flex items-center gap-2">
-                        <Leaf className="h-8 w-8 text-brand-green" />
-                        <span className="text-xl font-bold">VENUS <span className="text-brand-red">ADMIN</span></span>
+            <aside className="w-80 bg-white shadow-2xl flex flex-col fixed h-full z-20 border-r border-gray-100">
+                <div className="p-10">
+                    <Link href="/" className="flex items-center gap-3">
+                        <div className="bg-brand-green p-2 rounded-xl">
+                            <Leaf className="h-6 w-6 text-white" />
+                        </div>
+                        <span className="text-xl font-black text-gray-900 tracking-tighter uppercase">Venus <span className="text-brand-red">Admin</span></span>
                     </Link>
                 </div>
 
-                <nav className="flex-grow p-4 mt-4 space-y-2">
+                <nav className="flex-grow px-6 space-y-2">
                     {[
-                        { id: "dashboard", icon: LayoutDashboard, label: "Dashboard", href: "/admin/dashboard" },
-                        { id: "products", icon: Package, label: "Manage Products", href: "/admin/products" },
-                        { id: "enquiries", icon: MessageSquare, label: "Enquiries", href: "/admin/enquiries" },
-                        { id: "settings", icon: Settings, label: "Web Content", href: "/admin/settings" },
+                        { label: "Overview", icon: LayoutDashboard, href: "/admin/dashboard", active: true },
+                        { label: "Manage Products", icon: Package, href: "/admin/products" },
+                        { label: "Media Gallery", icon: Images, href: "/admin/gallery" },
+                        { label: "Contact & Reach", icon: MapPin, href: "/admin/contact" },
                     ].map((item) => (
                         <Link
-                            key={item.id}
+                            key={item.label}
                             href={item.href}
-                            className={`flex items-center gap-4 px-6 py-4 rounded-xl font-medium transition-all ${activeTab === item.id
-                                    ? "bg-brand-green text-white shadow-lg shadow-green-100"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-brand-green"
+                            className={`flex items-center gap-4 px-6 py-4 rounded-[1.25rem] font-black uppercase text-xs tracking-widest transition-all ${item.active
+                                    ? "bg-brand-green text-white shadow-xl shadow-green-100"
+                                    : "text-gray-400 hover:bg-gray-50 hover:text-brand-green"
                                 }`}
                         >
                             <item.icon className="h-5 w-5" />
@@ -52,118 +64,68 @@ export default function AdminDashboard() {
                     ))}
                 </nav>
 
-                <div className="p-4 border-t border-gray-100">
-                    <Link href="/admin/login" className="flex items-center gap-4 px-6 py-4 text-gray-400 hover:text-brand-red transition-all">
+                <div className="p-8 border-t border-gray-100">
+                    <button
+                        onClick={() => { localStorage.removeItem("admin_auth"); router.push("/admin/login"); }}
+                        className="w-full flex items-center justify-center gap-3 py-4 text-gray-400 font-bold hover:text-brand-red transition-all border-2 border-transparent hover:border-red-50 rounded-2xl"
+                    >
                         <LogOut className="h-5 w-5" />
-                        <span>Logout</span>
-                    </Link>
+                        <span>Secure Logout</span>
+                    </button>
                 </div>
             </aside>
 
             {/* Main Content */}
-            <main className="flex-grow ml-72 p-10 bg-gray-50 bg-opacity-50">
-                <header className="flex justify-between items-center mb-10">
-                    <div>
-                        <h1 className="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
-                        <p className="text-gray-500 mt-1">Welcome back, Administrator. Here's what's happening today.</p>
+            <main className="flex-grow ml-80 p-12 lg:p-16">
+                <header className="flex justify-between items-end mb-16">
+                    <div className="space-y-2">
+                        <span className="text-sm font-black text-brand-green uppercase tracking-[0.2em]">Management Console</span>
+                        <h1 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tighter uppercase">Welcome, Administrator</h1>
                     </div>
-                    <div className="flex items-center gap-4">
-                        <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-100 px-4 py-2 flex items-center gap-3">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span className="text-sm font-bold text-gray-600">System Live</span>
+                    <div className="flex items-center gap-4 bg-white p-4 rounded-3xl shadow-sm border border-gray-100">
+                        <div className="text-right">
+                            <p className="text-xs font-black text-gray-400 uppercase tracking-widest">Active Status</p>
+                            <p className="text-sm font-bold text-gray-900">System Online</p>
                         </div>
-                        <div className="w-12 h-12 bg-brand-green rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-green-100">
-                            AD
-                        </div>
+                        <div className="w-10 h-10 bg-green-500 rounded-2xl shadow-lg shadow-green-100 animate-pulse"></div>
                     </div>
                 </header>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                     {stats.map((stat, i) => (
-                        <div key={i} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition-all duration-300">
-                            <div className={`${stat.bg} ${stat.color} p-4 rounded-2xl inline-block mb-6`}>
+                        <div key={i} className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:shadow-2xl hover:scale-[1.02] transition-all duration-500">
+                            <div className={`${stat.bg} ${stat.color} p-4 rounded-2xl inline-block mb-6 shadow-inner`}>
                                 <stat.icon className="h-6 w-6" />
                             </div>
-                            <p className="text-gray-500 text-sm font-medium">{stat.title}</p>
-                            <div className="flex items-end justify-between mt-2">
-                                <h3 className="text-3xl font-black text-gray-900">{stat.value}</h3>
-                                <span className="text-xs font-bold text-green-500 bg-green-50 px-2 py-1 rounded-lg flex items-center gap-1">
-                                    <ArrowUpRight className="h-3 w-3" /> 4%
-                                </span>
-                            </div>
+                            <p className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-2">{stat.title}</p>
+                            <h3 className="text-4xl font-black text-gray-900 tracking-tighter">{stat.value}</h3>
                         </div>
                     ))}
                 </div>
 
-                {/* Recent Enquiries & Recent Products Overlay */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
-                        <div className="flex justify-between items-center mb-8">
-                            <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                                <MessageSquare className="text-brand-green h-5 w-5" />
-                                Recent Enquiries
-                            </h3>
-                            <Link href="/admin/enquiries" className="text-brand-green text-sm font-bold hover:underline">View All</Link>
+                {/* Quick Actions */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="bg-white p-10 rounded-[3rem] shadow-sm border border-gray-100 overflow-hidden relative group">
+                        <div className="relative z-10">
+                            <h3 className="text-2xl font-black text-gray-900 tracking-tighter uppercase mb-4">Latest Products</h3>
+                            <p className="text-gray-500 font-medium mb-8">Quickly update your variety portfolio</p>
+                            <Link href="/admin/products" className="inline-flex items-center gap-3 bg-brand-green text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:shadow-2xl shadow-lg shadow-green-100 transition-all">
+                                Manage Portfolio <ArrowRight className="h-4 w-4" />
+                            </Link>
                         </div>
-
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="border-b border-gray-50 text-gray-400 text-xs uppercase tracking-wider">
-                                        <th className="pb-4 font-bold">Farmer Name</th>
-                                        <th className="pb-4 font-bold">Subject</th>
-                                        <th className="pb-4 font-bold">Status</th>
-                                        <th className="pb-4 font-bold text-right">Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-50">
-                                    {recentEnquiries.map((enq) => (
-                                        <tr key={enq.id} className="group cursor-pointer hover:bg-gray-50 transition-colors">
-                                            <td className="py-6 pr-4">
-                                                <div className="font-bold text-gray-900">{enq.name}</div>
-                                                <div className="text-xs text-gray-400">{enq.email}</div>
-                                            </td>
-                                            <td className="py-6 px-4">
-                                                <span className="text-sm text-gray-600">{enq.subject}</span>
-                                            </td>
-                                            <td className="py-6 px-4">
-                                                <span className="px-3 py-1 bg-yellow-50 text-yellow-600 text-xs font-bold rounded-full border border-yellow-100">Pending</span>
-                                            </td>
-                                            <td className="py-6 pl-4 text-right">
-                                                <span className="text-xs text-gray-400 font-medium">{enq.date}</span>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                        <Package className="absolute -bottom-10 -right-10 h-48 w-48 text-gray-50 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-700" />
                     </div>
 
-                    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 flex flex-col">
-                        <h3 className="text-xl font-bold text-gray-900 mb-8 flex items-center gap-2">
-                            <ShoppingBag className="text-brand-red h-5 w-5" />
-                            Quick Actions
-                        </h3>
-                        <div className="space-y-4">
-                            <button className="w-full bg-brand-green text-white py-4 rounded-2xl font-bold hover:shadow-lg transition-all flex items-center justify-center gap-2">
-                                <Package className="h-5 w-5" /> Add New Product
-                            </button>
-                            <button className="w-full bg-gray-50 text-gray-700 py-4 rounded-2xl font-bold hover:bg-gray-100 transition-all flex items-center justify-center gap-2 border border-gray-100">
-                                <Settings className="h-5 w-5" /> Site Settings
-                            </button>
+                    <div className="bg-brand-red p-10 rounded-[3rem] shadow-sm overflow-hidden relative group">
+                        <div className="relative z-10 text-white">
+                            <h3 className="text-2xl font-black tracking-tighter uppercase mb-4">Media Library</h3>
+                            <p className="text-red-100 font-medium mb-8">Update field videos and event images</p>
+                            <Link href="/admin/gallery" className="inline-flex items-center gap-3 bg-white text-brand-red px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:shadow-2xl shadow-lg shadow-red-900 transition-all">
+                                Update Gallery <ArrowRight className="h-4 w-4" />
+                            </Link>
                         </div>
-
-                        <div className="mt-auto pt-12">
-                            <div className="bg-gradient-to-br from-brand-red to-red-600 p-8 rounded-2xl text-white relative overflow-hidden shadow-xl">
-                                <div className="relative z-10">
-                                    <h4 className="font-bold text-lg mb-2">Need Help?</h4>
-                                    <p className="text-sm opacity-80 mb-6 leading-relaxed">System documentation is available for all administrative tasks.</p>
-                                    <button className="bg-white text-brand-red px-6 py-2 rounded-xl text-sm font-bold shadow-lg">Open Docs</button>
-                                </div>
-                                <Leaf className="absolute -bottom-4 -right-4 h-32 w-32 opacity-20 -rotate-12" />
-                            </div>
-                        </div>
+                        <Images className="absolute -bottom-10 -right-10 h-48 w-48 text-white opacity-10 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-700" />
                     </div>
                 </div>
             </main>
