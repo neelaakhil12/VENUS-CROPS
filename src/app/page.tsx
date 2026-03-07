@@ -38,6 +38,12 @@ export default function Home() {
           ></div>
         ))}
         <div className="container-custom relative z-10 text-center">
+          <p
+            data-aos="fade-down"
+            className="text-brand-red font-bold tracking-widest uppercase text-sm md:text-base mb-4"
+          >
+            The Solution for Agriculture Needs
+          </p>
           <h1
             data-aos="fade-up"
             className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"

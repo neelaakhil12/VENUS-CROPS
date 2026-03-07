@@ -62,12 +62,12 @@ const IndiaMap = () => {
                                 <Geography
                                     key={geo.rsmKey}
                                     geography={geo}
-                                    fill={isOperating ? "#16A34A" : "#475569"} // brand-green or dark-slate
+                                    fill={isOperating ? "#16A34A" : "#E11D48"} // brand-green or brand-red
                                     stroke="#FFFFFF"
                                     strokeWidth={0.5}
                                     style={{
                                         default: { outline: "none" },
-                                        hover: { fill: isOperating ? "#15803D" : "#334155", outline: "none", cursor: "pointer" },
+                                        hover: { fill: isOperating ? "#15803D" : "#BE123C", outline: "none", cursor: "pointer" },
                                         pressed: { outline: "none" },
                                     }}
                                 />
