@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Leaf, ClipboardList } from "lucide-react";
+import { Menu, X, Leaf, ClipboardList, Download } from "lucide-react";
 import DealershipModal from "./DealershipModal";
 
 const Navbar = () => {
@@ -50,8 +50,15 @@ const Navbar = () => {
                     ))}
                 </div>
 
-                {/* Mobile Menu Button */}
-                <div className="flex items-center space-x-4">
+                {/* Mobile Menu Button / Desktop CTAs */}
+                <div className="flex items-center space-x-3">
+                    <a
+                        href="/documents/venus_catalogue.pdf"
+                        download
+                        className="hidden md:flex items-center gap-2 border-2 border-brand-green text-brand-green px-5 py-2 rounded-full font-bold transition-all shadow-sm hover:bg-brand-green hover:text-white active:scale-95 text-sm"
+                    >
+                        <Download className="h-4 w-4" /> Catalogue
+                    </a>
                     <button
                         onClick={() => setIsModalOpen(true)}
                         className="hidden md:flex items-center gap-2 bg-brand-red text-white px-5 py-2.5 rounded-full font-bold transition-all shadow-md hover:scale-105 active:scale-95 text-sm"
@@ -82,6 +89,14 @@ const Navbar = () => {
                             {link.name}
                         </Link>
                     ))}
+                    <a
+                        href="/documents/venus_catalogue.pdf"
+                        download
+                        onClick={() => setIsOpen(false)}
+                        className="w-full flex items-center justify-center gap-2 border-2 border-brand-green text-brand-green px-6 py-4 rounded-xl font-bold transition-all shadow-sm"
+                    >
+                        <Download className="h-5 w-5" /> Product Catalogue
+                    </a>
                     <button
                         onClick={() => {
                             setIsOpen(false);
