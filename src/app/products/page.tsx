@@ -481,14 +481,14 @@ function ProductsContent() {
             </section>
 
             {/* Filter Buttons */}
-            <section className="py-10 bg-white sticky top-16 z-40 border-b border-gray-100 shadow-sm">
+            <section className="py-6 bg-white sticky top-20 z-40 border-b border-gray-100 shadow-sm">
                 <div className="container-custom">
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <div className="flex overflow-x-auto whitespace-nowrap gap-4 pb-2 scrollbar-hide md:flex-wrap md:justify-center md:pb-0">
                         {categories.map((cat, i) => (
                             <button
                                 key={i}
                                 onClick={() => setActiveCategory(cat)}
-                                className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 ${activeCategory === cat
+                                className={`px-6 py-2 rounded-full font-semibold transition-all duration-300 shrink-0 ${activeCategory === cat
                                     ? "bg-brand-red text-white shadow-lg scale-105"
                                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                     }`}
