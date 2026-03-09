@@ -25,6 +25,7 @@ interface SeedVariety {
     sowing_period?: string;
     benefits?: string[];
     grains_characters?: string;
+    description?: string;
     image?: string;
 }
 
@@ -64,8 +65,11 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
                 )}
             </div>
 
-            <div className="p-8 flex flex-col">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 group-hover:text-brand-green transition-colors">{variety.name}</h3>
+            <div className="p-8 flex flex-col h-full">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-green transition-colors">{variety.name}</h3>
+                {variety.description && (
+                    <p className="text-gray-500 text-sm mb-6 line-clamp-2">{variety.description}</p>
+                )}
 
                 <div className="space-y-4">
                     <div className="flex items-center gap-3 text-gray-600">

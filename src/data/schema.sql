@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS varieties (
     sowing_time VARCHAR(255),
     resistant_to VARCHAR(255),
     image VARCHAR(255),
+    description TEXT,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
 
@@ -66,3 +67,8 @@ ON DUPLICATE KEY UPDATE name=name;
 INSERT INTO home_content (id, hero_title, hero_description, about_title, about_description)
 VALUES (1, 'Nurturing Life with Superior Seeds', 'Venus Crop Science - Providing high-quality seeds to farmers for better productivity, higher yield, and sustainable farming solutions.', 'A Dedicated Partner in Agricultural Success', 'Venus Crop Science is a dedicated agricultural seeds company committed to providing high-quality seeds to farmers for better productivity and profitability.')
 ON DUPLICATE KEY UPDATE hero_title=hero_title;
+
+-- Initial Categories
+INSERT IGNORE INTO categories (name) VALUES ('Maize Seed Varieties');
+INSERT IGNORE INTO categories (name) VALUES ('Paddy Seed Varieties');
+INSERT IGNORE INTO categories (name) VALUES ('Vegetable Seeds');

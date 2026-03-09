@@ -17,33 +17,39 @@ export async function GET() {
 
         const responseData = {
             company: {
-                name: (company as any)[0]?.name,
-                founder: (company as any)[0]?.founder,
-                established: (company as any)[0]?.established,
-                tagline: (company as any)[0]?.tagline,
+                name: (company as any)[0]?.name || "",
+                founder: (company as any)[0]?.founder || "",
+                established: (company as any)[0]?.established || 2021,
+                tagline: (company as any)[0]?.tagline || "",
                 contact: {
-                    email: (company as any)[0]?.email,
-                    phone: (company as any)[0]?.phone,
-                    address: (company as any)[0]?.address
+                    email: (company as any)[0]?.email || "",
+                    phone: (company as any)[0]?.phone || "",
+                    address: (company as any)[0]?.address || ""
                 }
             },
             home: {
                 hero: {
-                    title: (home as any)[0]?.hero_title,
-                    description: (home as any)[0]?.hero_description
+                    title: (home as any)[0]?.hero_title || "",
+                    description: (home as any)[0]?.hero_description || ""
                 },
                 about: {
-                    title: (home as any)[0]?.about_title,
-                    description: (home as any)[0]?.about_description
+                    title: (home as any)[0]?.about_title || "",
+                    description: (home as any)[0]?.about_description || ""
                 }
             },
-            products: products,
-            gallery: gallery
+            products: products || [],
+            gallery: gallery || []
         };
 
         return NextResponse.json(responseData);
     } catch (error: any) {
         console.error('Database GET Error:', error);
+        if (error.code === 'ENOTFOUND' || error.code === 'ECONNREFUSED' || error.message.includes('DATABASE_HOST_IP')) {
+            return NextResponse.json({
+                error: "DATABASE_NOT_CONFIGURED",
+                message: "Database connection failed. Please update your .env file with real Hostinger credentials."
+            }, { status: 200 }); // Return 200 so frontend can handle it gracefully
+        }
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
@@ -73,8 +79,8 @@ export async function POST(request: Request) {
             const categoryId = (catResult as any).insertId;
             for (const v of cat.varieties) {
                 await connection.query(
-                    'INSERT INTO varieties (category_id, name, type, packing, seed_per_acre, height, duration, grain_type, panicle_length, grains_per_panicle, disease_reaction, sowing_time, resistant_to, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    [categoryId, v.name, v.type, v.packing, v.seed_per_acre, v.height, v.duration, v.grain_type, v.panicle_length, v.grains_per_panicle, v.disease_reaction, v.sowing_time, v.resistant_to, v.image]
+                    'INSERT INTO varieties (category_id, name, type, packing, seed_per_acre, height, duration, grain_type, panicle_length, grains_per_panicle, disease_reaction, sowing_time, resistant_to, image, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    [categoryId, v.name, v.type, v.packing, v.seed_per_acre, v.height, v.duration, v.grain_type, v.panicle_length, v.grains_per_panicle, v.disease_reaction, v.sowing_time, v.resistant_to, v.image, v.description]
                 );
             }
         }

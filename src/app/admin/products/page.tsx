@@ -19,30 +19,67 @@ export default function AdminProducts() {
     }, [router]);
 
     const fetchData = async () => {
-        const res = await fetch("/api/data");
-        const json = await res.json();
-        setData(json);
-        setLoading(false);
+        try {
+            const res = await fetch("/api/data");
+            const json = await res.json();
+            if (json.error) {
+                console.error("API Error:", json.error);
+                setData({ products: [], gallery: [] }); // Set fallback
+            } else {
+                setData(json);
+            }
+        } catch (err) {
+            console.error("Fetch Error:", err);
+            setData({ products: [], gallery: [] }); // Set fallback
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         const updatedData = { ...data };
 
-        if (editingProduct.id) {
-            // logic for update
+        let targetCategory = updatedData.products.find((p: any) => p.category === editingProduct.category);
+
+        if (!targetCategory && editingProduct.category) {
+            // Create new category if it doesn't exist
+            targetCategory = { category: editingProduct.category, varieties: [] };
+            updatedData.products.push(targetCategory);
+        }
+
+        if (editingProduct.originalName || editingProduct.id) {
+            // Update logic: find the old product and update it
+            updatedData.products.forEach((cat: any) => {
+                const idx = cat.varieties.findIndex((v: any) => v.name === (editingProduct.originalName || editingProduct.name));
+                if (idx !== -1) {
+                    // Remove from old category/position
+                    cat.varieties.splice(idx, 1);
+                }
+            });
+            // Add to new/target category
+            if (targetCategory) {
+                targetCategory.varieties.push({ ...editingProduct });
+            }
         } else {
-            // logic for add
+            // Add logic
+            if (targetCategory) {
+                targetCategory.varieties.push({ ...editingProduct });
+            }
         }
 
         const res = await fetch("/api/data", {
             method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedData),
         });
 
         if (res.ok) {
             setIsModalOpen(false);
             fetchData();
+        } else {
+            const err = await res.json();
+            alert("Error saving: " + err.error);
         }
     };
 
@@ -83,7 +120,7 @@ export default function AdminProducts() {
                         <p className="text-gray-500 font-medium">Manage your seed varieties and categories</p>
                     </div>
                     <button
-                        onClick={() => { setEditingProduct({}); setIsModalOpen(true); }}
+                        onClick={() => { setEditingProduct({ category: data?.products?.[0]?.category || "" }); setIsModalOpen(true); }}
                         className="bg-brand-red text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest flex items-center gap-3 shadow-xl shadow-red-100 hover:scale-105 transition-all"
                     >
                         <Plus className="h-5 w-5" /> Add New Variety
@@ -92,58 +129,181 @@ export default function AdminProducts() {
 
                 {/* Categories List */}
                 <div className="space-y-12">
-                    {data.products.map((cat: any, catIdx: number) => (
-                        <section key={cat.category} className="bg-white rounded-[3rem] shadow-sm border border-gray-100 overflow-hidden">
-                            <div className="bg-gray-50/50 px-10 py-6 border-b border-gray-100 flex justify-between items-center">
-                                <h2 className="text-xl font-black text-gray-800 uppercase tracking-tight">{cat.category}</h2>
-                                <span className="bg-white px-4 py-1 rounded-full text-xs font-black text-gray-400 border border-gray-100">{cat.varieties.length} Varieties</span>
-                            </div>
-                            <div className="divide-y divide-gray-50">
-                                {cat.varieties.map((v: any, vIdx: number) => (
-                                    <div key={v.name} className="px-10 py-6 flex items-center justify-between group hover:bg-gray-50/50 transition-all">
-                                        <div className="flex items-center gap-6">
-                                            <div className="w-16 h-16 bg-gray-100 rounded-2xl overflow-hidden border border-gray-100">
-                                                {v.image && <img src={v.image} className="w-full h-full object-cover" />}
+                    {data?.products && data.products.length > 0 ? (
+                        data.products.map((cat: any, catIdx: number) => (
+                            <section key={cat.category} className="bg-white rounded-[3rem] shadow-sm border border-gray-100 overflow-hidden">
+                                <div className="bg-gray-50/50 px-10 py-6 border-b border-gray-100 flex justify-between items-center">
+                                    <h2 className="text-xl font-black text-gray-800 uppercase tracking-tight">{cat.category}</h2>
+                                    <span className="bg-white px-4 py-1 rounded-full text-xs font-black text-gray-400 border border-gray-100">{cat.varieties?.length || 0} Varieties</span>
+                                </div>
+                                <div className="divide-y divide-gray-50">
+                                    {cat.varieties?.map((v: any, vIdx: number) => (
+                                        <div key={v.name} className="px-10 py-6 flex items-center justify-between group hover:bg-gray-50/50 transition-all">
+                                            <div className="flex items-center gap-6">
+                                                <div className="w-16 h-16 bg-gray-100 rounded-2xl overflow-hidden border border-gray-100">
+                                                    {v.image && <img src={v.image} className="w-full h-full object-cover" />}
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-black text-gray-900 group-hover:text-brand-green transition-colors">{v.name}</h3>
+                                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">{v.type} • {v.packing}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h3 className="font-black text-gray-900 group-hover:text-brand-green transition-colors">{v.name}</h3>
-                                                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">{v.type} • {v.packing}</p>
+                                            <div className="flex gap-2">
+                                                <button onClick={() => { setEditingProduct({ ...v, originalName: v.name, category: cat.category }); setIsModalOpen(true); }} className="p-3 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-brand-green hover:shadow-lg transition-all"><Edit className="h-4 w-4" /></button>
+                                                <button onClick={() => deleteProduct(catIdx, vIdx)} className="p-3 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-brand-red hover:shadow-lg transition-all"><Trash2 className="h-4 w-4" /></button>
                                             </div>
                                         </div>
-                                        <div className="flex gap-2">
-                                            <button onClick={() => { setEditingProduct(v); setIsModalOpen(true); }} className="p-3 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-brand-green hover:shadow-lg transition-all"><Edit className="h-4 w-4" /></button>
-                                            <button onClick={() => deleteProduct(catIdx, vIdx)} className="p-3 bg-white border border-gray-100 rounded-xl text-gray-400 hover:text-brand-red hover:shadow-lg transition-all"><Trash2 className="h-4 w-4" /></button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </section>
-                    ))}
+                                    ))}
+                                </div>
+                            </section>
+                        ))
+                    ) : (
+                        <div className="bg-white p-20 rounded-[3rem] text-center border-2 border-dashed border-gray-100">
+                            <Package className="h-16 w-16 text-gray-200 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-gray-400">No products found.</h3>
+                            <p className="text-gray-400 text-sm mt-2">Check your database connection in .env or add your first product!</p>
+                        </div>
+                    )}
                 </div>
             </main>
 
             {/* Basic Modal for Add/Edit */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-6">
-                    <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl p-12 relative">
-                        <button onClick={() => setIsModalOpen(false)} className="absolute top-8 right-8 p-4 bg-gray-50 rounded-full hover:bg-red-50 hover:text-red-500 transition-all"><X /></button>
-                        <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter mb-8">{editingProduct.name ? 'Edit Variety' : 'Add New Variety'}</h2>
+                    <div className="bg-white w-full max-w-4xl rounded-[3rem] shadow-2xl p-12 relative max-h-[90vh] overflow-y-auto">
+                        <button onClick={() => setIsModalOpen(false)} className="absolute top-8 right-8 p-4 bg-gray-50 rounded-full hover:bg-red-50 hover:text-red-500 transition-all z-10"><X /></button>
+                        <h2 className="text-3xl font-black text-gray-900 uppercase tracking-tighter mb-8">{editingProduct.originalName ? 'Edit Variety' : 'Add New Variety'}</h2>
 
-                        <form onSubmit={handleSave} className="space-y-6">
-                            <div className="grid grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Variety Name</label>
-                                    <input type="text" className="w-full bg-gray-50 border-0 rounded-2xl px-6 py-4 font-bold" defaultValue={editingProduct.name} />
+                        <form onSubmit={handleSave} className="space-y-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {/* Basic Info */}
+                                <div className="space-y-6">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Variety Name</label>
+                                        <input required type="text" className="w-full bg-gray-50 border-0 rounded-2xl px-6 py-4 font-bold focus:ring-4 focus:ring-brand-green/10" value={editingProduct.name || ""} onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Category</label>
+                                        <div className="flex flex-col gap-2">
+                                            <select
+                                                className="w-full bg-gray-50 border-0 rounded-2xl px-6 py-4 font-bold text-gray-700 focus:ring-4 focus:ring-brand-green/10"
+                                                value={editingProduct.category || ""}
+                                                onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
+                                            >
+                                                <option value="" disabled>Select Category</option>
+                                                {data?.products?.map((c: any) => (
+                                                    <option key={c.category} value={c.category}>{c.category}</option>
+                                                ))}
+                                            </select>
+                                            <input
+                                                type="text"
+                                                placeholder="Or type new category..."
+                                                className="w-full bg-gray-50 border-0 rounded-2xl px-6 py-4 font-bold text-gray-700 placeholder:text-gray-300"
+                                                onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Description</label>
+                                        <textarea
+                                            className="w-full bg-gray-50 border-0 rounded-2xl px-6 py-4 font-bold text-sm min-h-[120px]"
+                                            placeholder="Variety characteristics and benefits..."
+                                            value={editingProduct.description || ""}
+                                            onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Category</label>
-                                    <select className="w-full bg-gray-50 border-0 rounded-2xl px-6 py-4 font-bold">
-                                        {data.products.map((c: any) => <option key={c.category}>{c.category}</option>)}
-                                    </select>
+
+                                {/* Technical Specs */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Type</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.type || ""} onChange={(e) => setEditingProduct({ ...editingProduct, type: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Packing</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.packing || ""} onChange={(e) => setEditingProduct({ ...editingProduct, packing: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Seed/Acre</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.seed_per_acre || ""} onChange={(e) => setEditingProduct({ ...editingProduct, seed_per_acre: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Height</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.height || ""} onChange={(e) => setEditingProduct({ ...editingProduct, height: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Duration</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.duration || ""} onChange={(e) => setEditingProduct({ ...editingProduct, duration: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Grain Type</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.grain_type || ""} onChange={(e) => setEditingProduct({ ...editingProduct, grain_type: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Panicle Length</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.panicle_length || ""} onChange={(e) => setEditingProduct({ ...editingProduct, panicle_length: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Grains/Panicle</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.grains_per_panicle || ""} onChange={(e) => setEditingProduct({ ...editingProduct, grains_per_panicle: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Disease Reaction</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.disease_reaction || ""} onChange={(e) => setEditingProduct({ ...editingProduct, disease_reaction: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Sowing Time</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.sowing_time || ""} onChange={(e) => setEditingProduct({ ...editingProduct, sowing_time: e.target.value })} />
+                                    </div>
+                                    <div className="col-span-2 space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Resistant To</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.resistant_to || ""} onChange={(e) => setEditingProduct({ ...editingProduct, resistant_to: e.target.value })} />
+                                    </div>
                                 </div>
                             </div>
-                            <button type="submit" className="w-full bg-brand-green text-white py-5 rounded-[1.5rem] font-black uppercase tracking-widest shadow-xl flex items-center justify-center gap-3">
-                                <Save className="h-5 w-5" /> Save Variety Details
+
+                            {/* Image Section */}
+                            <div className="space-y-4 pt-4 border-t border-gray-100">
+                                <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Product Image</label>
+                                <div className="flex flex-col md:flex-row gap-6 items-start">
+                                    <div className="flex-grow w-full">
+                                        <div className="relative group/upload">
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={async (e) => {
+                                                    const file = e.target.files?.[0];
+                                                    if (!file) return;
+                                                    const btn = e.target.closest('form')?.querySelector('button[type="submit"]');
+                                                    if (btn) (btn as any).disabled = true;
+                                                    const formData = new FormData();
+                                                    formData.append('file', file);
+                                                    try {
+                                                        const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                                                        const json = await res.json();
+                                                        if (json.url) setEditingProduct({ ...editingProduct, image: json.url });
+                                                    } catch (err) {
+                                                        console.error("Upload failed:", err);
+                                                    } finally {
+                                                        if (btn) (btn as any).disabled = false;
+                                                    }
+                                                }}
+                                                className="w-full bg-gray-50 border-2 border-dashed border-gray-100 rounded-3xl px-6 py-8 font-bold text-gray-400 hover:border-brand-green hover:bg-green-50/30 transition-all cursor-pointer"
+                                            />
+                                        </div>
+                                    </div>
+                                    {editingProduct.image && (
+                                        <div className="shrink-0 group/preview relative">
+                                            <img src={editingProduct.image} className="w-32 h-32 rounded-2xl object-cover shadow-xl border-4 border-white transform group-hover:scale-105 transition-all" />
+                                            <div className="absolute -top-2 -right-2 bg-brand-green text-white text-[10px] font-black px-2 py-1 rounded-full uppercase shadow-lg">Current</div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            <button type="submit" className="w-full bg-brand-green text-white py-6 rounded-[2rem] font-black uppercase tracking-widest shadow-2xl hover:bg-green-600 hover:scale-[1.02] transition-all flex items-center justify-center gap-4">
+                                <Save className="h-6 w-6" /> {editingProduct.originalName ? 'Update Variety' : 'Add Variety to Inventory'}
                             </button>
                         </form>
                     </div>

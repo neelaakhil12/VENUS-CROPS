@@ -14,7 +14,20 @@ export default function AdminGallery() {
     useEffect(() => {
         const isAuth = localStorage.getItem("admin_auth");
         if (!isAuth) { router.push("/admin/login"); return; }
-        fetch("/api/data").then(res => res.json()).then(setData);
+        fetch("/api/data")
+            .then(res => res.json())
+            .then(json => {
+                if (json.error) {
+                    console.error("Gallery Data Error:", json.error);
+                    setData({ gallery: [] });
+                } else {
+                    setData(json);
+                }
+            })
+            .catch(err => {
+                console.error("Gallery Fetch Error:", err);
+                setData({ gallery: [] });
+            });
     }, [router]);
 
     const handleSave = async (e: React.FormEvent) => {
@@ -79,29 +92,37 @@ export default function AdminGallery() {
                 </header>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {data.gallery.map((item: any, idx: number) => (
-                        <div key={idx} className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-500">
-                            <div className="aspect-[4/3] relative bg-black flex items-center justify-center">
-                                {item.type === 'video' ? (
-                                    <video src={item.url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
-                                ) : (
-                                    <img src={item.url} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
-                                )}
-                                <div className="absolute top-6 right-6 flex gap-2 invisible group-hover:visible transition-all">
-                                    <button onClick={() => deleteItem(idx)} className="p-3 bg-red-500 text-white rounded-xl shadow-lg hover:bg-red-600 transition-all"><Trash2 className="h-4 w-4" /></button>
+                    {data?.gallery && data.gallery.length > 0 ? (
+                        data.gallery.map((item: any, idx: number) => (
+                            <div key={idx} className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden group hover:shadow-2xl transition-all duration-500">
+                                <div className="aspect-[4/3] relative bg-black flex items-center justify-center">
+                                    {item.type === 'video' ? (
+                                        <video src={item.url} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
+                                    ) : (
+                                        <img src={item.url} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                                    )}
+                                    <div className="absolute top-6 right-6 flex gap-2 invisible group-hover:visible transition-all">
+                                        <button onClick={() => deleteItem(idx)} className="p-3 bg-red-500 text-white rounded-xl shadow-lg hover:bg-red-600 transition-all"><Trash2 className="h-4 w-4" /></button>
+                                    </div>
+                                    {item.type === 'video' && <Film className="absolute top-6 left-6 h-6 w-6 text-yellow-500" />}
+                                    {item.type === 'image' && <ImageIcon className="absolute top-6 left-6 h-6 w-6 text-brand-green" />}
                                 </div>
-                                {item.type === 'video' && <Film className="absolute top-6 left-6 h-6 w-6 text-yellow-500" />}
-                                {item.type === 'image' && <ImageIcon className="absolute top-6 left-6 h-6 w-6 text-brand-green" />}
-                            </div>
-                            <div className="p-8">
-                                <h3 className="font-black text-gray-900 group-hover:text-brand-green transition-colors uppercase tracking-tight">{item.title}</h3>
-                                <div className="flex items-center justify-between mt-4">
-                                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">{item.category}</span>
-                                    <Link href={item.url} target="_blank" className="p-2 bg-gray-50 rounded-lg text-gray-400 hover:text-brand-green transition-all"><ExternalLink className="h-4 w-4" /></Link>
+                                <div className="p-8">
+                                    <h3 className="font-black text-gray-900 group-hover:text-brand-green transition-colors uppercase tracking-tight">{item.title}</h3>
+                                    <div className="flex items-center justify-between mt-4">
+                                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest">{item.category}</span>
+                                        <Link href={item.url} target="_blank" className="p-2 bg-gray-50 rounded-lg text-gray-400 hover:text-brand-green transition-all"><ExternalLink className="h-4 w-4" /></Link>
+                                    </div>
                                 </div>
                             </div>
+                        ))
+                    ) : (
+                        <div className="col-span-full bg-white p-20 rounded-[3rem] text-center border-2 border-dashed border-gray-100">
+                            <Images className="h-16 w-16 text-gray-200 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-gray-400">Media library is empty</h3>
+                            <p className="text-gray-400 text-sm mt-2">Start by uploading some field photos or videos!</p>
                         </div>
-                    ))}
+                    )}
                 </div>
             </main>
 
@@ -124,9 +145,52 @@ export default function AdminGallery() {
                                     <button type="button" onClick={() => setNewItem({ ...newItem, type: 'video' })} className={`flex-1 py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all ${newItem.type === 'video' ? 'bg-brand-red text-white' : 'bg-gray-50 text-gray-400'}`}>Video</button>
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Relative URL (e.g. /img/field.jpg)</label>
-                                <input required type="text" className="w-full bg-gray-50 border-0 rounded-2xl px-6 py-4 font-bold" value={newItem.url} onChange={(e) => setNewItem({ ...newItem, url: e.target.value })} />
+                            <div className="space-y-4">
+                                <label className="text-xs font-black text-gray-400 uppercase tracking-widest">Select File (Image/Video)</label>
+                                <div className="relative group/upload">
+                                    <input
+                                        type="file"
+                                        accept={newItem.type === 'image' ? 'image/*' : 'video/*'}
+                                        onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (!file) return;
+
+                                            const formData = new FormData();
+                                            formData.append('file', file);
+
+                                            // Show loading state
+                                            const btn = e.target.parentElement?.parentElement?.querySelector('button[type="submit"]');
+                                            if (btn) (btn as any).disabled = true;
+
+                                            try {
+                                                const res = await fetch('/api/upload', {
+                                                    method: 'POST',
+                                                    body: formData
+                                                });
+                                                const json = await res.json();
+                                                if (json.url) {
+                                                    setNewItem({ ...newItem, url: json.url });
+                                                }
+                                            } catch (err) {
+                                                console.error("Upload failed:", err);
+                                            } finally {
+                                                if (btn) (btn as any).disabled = false;
+                                            }
+                                        }}
+                                        className="w-full bg-gray-50 border-2 border-dashed border-gray-100 rounded-3xl px-6 py-10 font-bold text-gray-400 hover:border-brand-green hover:bg-green-50/30 transition-all cursor-pointer"
+                                    />
+                                    {newItem.url && (
+                                        <div className="mt-4 flex items-center gap-3 bg-green-50 p-4 rounded-2xl border border-green-100">
+                                            <div className="w-12 h-12 bg-white rounded-xl overflow-hidden shadow-sm">
+                                                {newItem.type === 'video' ? <Film className="w-full h-full p-3 text-brand-green" /> : <img src={newItem.url} className="w-full h-full object-cover" />}
+                                            </div>
+                                            <div>
+                                                <p className="text-xs font-black text-brand-green uppercase tracking-widest">File Uploaded Successfully</p>
+                                                <p className="text-[10px] text-gray-400 truncate max-w-[200px]">{newItem.url}</p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                             <button type="submit" className="w-full bg-brand-green text-white py-5 rounded-3xl font-black uppercase tracking-[0.2em] shadow-xl shadow-green-100 mt-4">
                                 Post to Gallery
