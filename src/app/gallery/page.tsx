@@ -51,6 +51,8 @@ const galleryItems = [
     }
 ];
 
+import siteData from "@/data/siteData.json";
+
 export default function Gallery() {
     const [data, setData] = useState<any>(null);
     const [filter, setFilter] = useState("Images");
@@ -58,7 +60,16 @@ export default function Gallery() {
     useEffect(() => {
         fetch("/api/data")
             .then(res => res.json())
-            .then(setData);
+            .then(json => {
+                if (json.error || !json.gallery) {
+                    throw new Error(json.error || "Invalid data format");
+                }
+                setData(json);
+            })
+            .catch(err => {
+                console.warn("Gallery API Fetch failed, falling back to static data:", err);
+                setData(siteData);
+            });
     }, []);
 
     const handleVideoPlay = (e: React.SyntheticEvent<HTMLVideoElement>) => {
@@ -71,9 +82,9 @@ export default function Gallery() {
         });
     };
 
-    if (!data) return <div className="min-h-screen flex items-center justify-center font-bold text-brand-green">Loading Gallery...</div>;
+    if (!data || !data.gallery) return <div className="min-h-screen flex items-center justify-center font-bold text-brand-green">Loading Gallery...</div>;
 
-    const galleryItems = data.gallery;
+    const galleryItems = data.gallery || [];
 
     const filteredItems = galleryItems.filter((item: any) =>
         item.category === filter ||
