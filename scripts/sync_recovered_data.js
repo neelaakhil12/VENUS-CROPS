@@ -1,4 +1,5 @@
-{
+
+const recoveredData = {
     "company": {
         "name": "Venus Crop Science",
         "founder": "Praneeth Lakkaram",
@@ -279,9 +280,7 @@
                     "seed_per_acre": "20kg",
                     "duration": "30-35 days",
                     "sowing_time": "All seasons",
-                    "benefits": [
-                        "High yielding with best leafy green"
-                    ],
+                    "benefits": ["High yielding with best leafy green"],
                     "image": "/img/morocco-coriander.png"
                 }
             ]
@@ -331,4 +330,36 @@
             "type": "video"
         }
     ]
+};
+
+async function syncData() {
+    try {
+        console.log("Syncing recovered data to API at http://localhost:3000/api/data...");
+        const response = await fetch("http://localhost:3000/api/data", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(recoveredData)
+        });
+
+        const responseText = await response.text();
+        console.log("Status:", response.status);
+
+        try {
+            const json = JSON.parse(responseText);
+            console.log("JSON Result:", JSON.stringify(json, null, 2));
+        } catch (e) {
+            console.log("Raw Response (not JSON):", responseText);
+        }
+
+        if (!response.ok) {
+            console.error("Sync failed with status", response.status);
+        } else {
+            console.log("SUCCESS: Data synchronized correctly.");
+        }
+    } catch (error) {
+        console.error("Fetch/Network Error:", error.message);
+        if (error.stack) console.error(error.stack);
+    }
 }
+
+syncData();

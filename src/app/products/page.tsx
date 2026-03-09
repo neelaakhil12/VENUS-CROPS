@@ -201,21 +201,23 @@ function ProductsContent() {
                 }
                 setData(json);
                 const categoryParam = searchParams.get("category");
-                setActiveCategory(categoryParam || json.products[0]?.category || "");
+                setActiveCategory(categoryParam || "All");
             })
             .catch(err => {
                 console.warn("API Fetch failed, falling back to static data:", err);
                 setData(siteData);
                 const categoryParam = searchParams.get("category");
-                setActiveCategory(categoryParam || siteData.products[0]?.category || "");
+                setActiveCategory(categoryParam || "All");
             });
     }, [searchParams]);
 
     if (!data || !data.products || !Array.isArray(data.products)) return <div className="pt-40 text-center text-gray-500">Loading Products Library...</div>;
 
     const productsData = data.products;
-    const categories = productsData.map((p: any) => p.category);
-    const filteredProducts = productsData.filter((p: any) => p.category === activeCategory);
+    const categories = ["All", ...Array.from(new Set(productsData.map((p: any) => p.category)))];
+    const filteredProducts = activeCategory === "All"
+        ? productsData
+        : productsData.filter((p: any) => p.category === activeCategory);
 
     return (
         <>
@@ -235,7 +237,7 @@ function ProductsContent() {
             <section className="py-6 bg-white sticky top-20 z-40 border-b border-gray-100 shadow-sm">
                 <div className="container-custom">
                     <div className="flex overflow-x-auto whitespace-nowrap gap-4 pb-2 scrollbar-hide md:flex-wrap md:justify-center md:pb-0">
-                        {categories.map((cat: string, i: number) => (
+                        {categories.map((cat: any, i: number) => (
                             <button
                                 key={i}
                                 onClick={() => setActiveCategory(cat)}
