@@ -185,6 +185,8 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
     );
 }
 
+import siteData from "@/data/siteData.json";
+
 function ProductsContent() {
     const searchParams = useSearchParams();
     const [data, setData] = useState<any>(null);
@@ -194,13 +196,22 @@ function ProductsContent() {
         fetch("/api/data")
             .then(res => res.json())
             .then(json => {
+                if (json.error || !json.products) {
+                    throw new Error(json.error || "Invalid data format");
+                }
                 setData(json);
                 const categoryParam = searchParams.get("category");
-                setActiveCategory(categoryParam || json.products[0].category);
+                setActiveCategory(categoryParam || json.products[0]?.category || "");
+            })
+            .catch(err => {
+                console.warn("API Fetch failed, falling back to static data:", err);
+                setData(siteData);
+                const categoryParam = searchParams.get("category");
+                setActiveCategory(categoryParam || siteData.products[0]?.category || "");
             });
     }, [searchParams]);
 
-    if (!data) return <div className="pt-40 text-center text-gray-500">Loading Products Library...</div>;
+    if (!data || !data.products || !Array.isArray(data.products)) return <div className="pt-40 text-center text-gray-500">Loading Products Library...</div>;
 
     const productsData = data.products;
     const categories = productsData.map((p: any) => p.category);
