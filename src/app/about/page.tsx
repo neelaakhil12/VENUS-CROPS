@@ -3,8 +3,23 @@
 import Layout from "@/components/Layout";
 import { Target, Eye, Heart, ShieldCheck, Microscope, Briefcase, Mail, Phone, Leaf, Zap, MapPin } from "lucide-react";
 import IndiaMap from "@/components/IndiaMap";
+import { useState } from "react";
 
 export default function About() {
+    const [selectedRole, setSelectedRole] = useState<string | null>(null);
+
+    const handleApplyNow = () => {
+        const whatsappNumber = "918639171139";
+        let message = `Hello! I am interested in applying for a position at Venus Crop Science.`;
+
+        if (selectedRole) {
+            message = `Hello! I am interested in applying for the *${selectedRole}* position at Venus Crop Science.`;
+        }
+
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
+    };
+
     return (
         <Layout>
             {/* Banner */}
@@ -221,12 +236,24 @@ export default function About() {
                                         "Operations Staff",
                                         "Customer Support"
                                     ].map((role, i) => (
-                                        <div key={i} className="bg-gray-50 p-4 rounded-xl text-sm font-semibold border border-gray-100 hover:border-brand-red transition-all cursor-default">
+                                        <div
+                                            key={i}
+                                            onClick={() => setSelectedRole(role)}
+                                            className={`bg-gray-50 p-4 rounded-xl text-sm font-semibold border transition-all cursor-pointer ${selectedRole === role
+                                                ? "border-brand-red bg-brand-red text-white"
+                                                : "border-gray-100 hover:border-brand-red text-gray-900"
+                                                }`}
+                                        >
                                             {role}
                                         </div>
                                     ))}
                                 </div>
-                                <button className="w-full mt-8 btn-secondary">Apply Now</button>
+                                <button
+                                    onClick={handleApplyNow}
+                                    className="w-full mt-8 btn-secondary"
+                                >
+                                    Apply Now
+                                </button>
                             </div>
                         </div>
                         {/* Decorative element */}
@@ -235,25 +262,5 @@ export default function About() {
                 </div>
             </section>
         </Layout>
-    );
-}
-
-// Helper component
-function CheckCircle2({ className }: { className?: string }) {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={className}
-        >
-            <circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" />
-        </svg>
     );
 }

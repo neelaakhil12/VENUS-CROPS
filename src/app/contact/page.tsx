@@ -14,7 +14,17 @@ export default function Contact() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        alert("Thank you for your enquiry! Our team will get back to you soon.");
+        
+        const whatsappNumber = "918639171139";
+        const message = `*New Enquiry from Venus Crop Science Website*%0A%0A` +
+            `*Name:* ${formData.name}%0A` +
+            `*Phone:* ${formData.phone}%0A` +
+            `*Email:* ${formData.email}%0A%0A` +
+            `*Message:* ${formData.message}`;
+            
+        const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+        window.open(whatsappUrl, "_blank");
+        
         setFormData({ name: "", phone: "", email: "", message: "" });
     };
 
