@@ -312,8 +312,24 @@ export default function AdminProducts() {
                                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Benefits (Point-wise, one per line)</label>
                                         <textarea
                                             className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm min-h-[120px]"
-                                            value={Array.isArray(editingProduct.benefits) ? editingProduct.benefits.join('\n') : (editingProduct.benefits || "")}
-                                            onChange={(e) => setEditingProduct({ ...editingProduct, benefits: e.target.value.split('\n').filter(b => b.trim() !== "") })}
+                                            value={Array.isArray(editingProduct.benefits) && editingProduct.benefits.length > 0
+                                                ? editingProduct.benefits.map((b: string) => `• ${b.replace(/^•\s*/, '')}`).join('\n')
+                                                : (editingProduct.benefits || "")}
+                                            onChange={(e) => {
+                                                const lines = e.target.value.split('\n');
+                                                const bulletedLines = lines.map((line: string) => {
+                                                    // Only add bullet if line has text and doesn't already start with one
+                                                    if (line.trim() && !line.trim().startsWith('•')) {
+                                                        return `• ${line.trim()}`;
+                                                    }
+                                                    return line;
+                                                });
+                                                // Save cleaned bullets to state
+                                                setEditingProduct({
+                                                    ...editingProduct,
+                                                    benefits: bulletedLines.filter((b: string) => b.trim() !== "").map((b: string) => b.replace(/^•\s*/, ''))
+                                                });
+                                            }}
                                         />
                                         <p className="text-[10px] text-gray-400 italic">Each line will be displayed as a separate bullet point on the main website.</p>
                                     </div>
