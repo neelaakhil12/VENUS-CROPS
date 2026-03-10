@@ -104,7 +104,21 @@ const Footer = () => {
 
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-400">
-                    <p>© {currentYear} VENUS CROP SCIENCE. All rights reserved.</p>
+                    <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+                        <p>© {currentYear} VENUS CROP SCIENCE. All rights reserved.</p>
+                        <span className="hidden md:inline">|</span>
+                        <p>
+                            Developed by{" "}
+                            <a 
+                                href="https://www.codtechitsolutions.com/" 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="hover:text-brand-green transition-colors font-medium"
+                            >
+                                CODTECH IT SOLUTIONS
+                            </a>
+                        </p>
+                    </div>
                     <div className="flex space-x-6">
                         <Link href="/privacy" className="hover:text-brand-green">Privacy Policy</Link>
                         <Link href="/terms" className="hover:text-brand-green">Terms of Service</Link>
