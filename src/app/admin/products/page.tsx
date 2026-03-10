@@ -166,12 +166,11 @@ export default function AdminProducts() {
 
                                                         {v.benefits && v.benefits.length > 0 && (
                                                             <div className="col-span-1 md:col-span-2 mt-2 pt-2 border-t border-gray-100">
-                                                                {v.benefits.map((benefit: string, bIdx: number) => (
-                                                                    <div key={bIdx} className="flex items-start gap-3 mb-1">
-                                                                        <div className="w-1.5 h-1.5 rounded-full bg-brand-green mt-2 shrink-0" />
-                                                                        <span className="text-sm text-gray-900 font-medium">{benefit}</span>
-                                                                    </div>
-                                                                ))}
+                                                                <ul className="list-disc list-inside space-y-1 ml-1 text-gray-900 font-medium text-sm">
+                                                                    {v.benefits.map((benefit: string, bIdx: number) => (
+                                                                        <li key={bIdx}>{benefit}</li>
+                                                                    ))}
+                                                                </ul>
                                                             </div>
                                                         )}
                                                     </div>
