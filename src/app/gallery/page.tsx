@@ -54,21 +54,19 @@ const galleryItems = [
 import siteData from "@/data/siteData.json";
 
 export default function Gallery() {
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<any>(siteData);
     const [filter, setFilter] = useState("Images");
 
     useEffect(() => {
         fetch("/api/data")
             .then(res => res.json())
             .then(json => {
-                if (json.error || !json.gallery) {
-                    throw new Error(json.error || "Invalid data format");
+                if (!json.error && json.gallery) {
+                    setData(json);
                 }
-                setData(json);
             })
             .catch(err => {
-                console.warn("Gallery API Fetch failed, falling back to static data:", err);
-                setData(siteData);
+                console.warn("Gallery API Fetch failed, keeping static data:", err);
             });
     }, []);
 
@@ -82,11 +80,9 @@ export default function Gallery() {
         });
     };
 
-    if (!data || !data.gallery) return <div className="min-h-screen flex items-center justify-center font-bold text-brand-green">Loading Gallery...</div>;
+    const displayGalleryItems = data?.gallery || siteData.gallery || [];
 
-    const galleryItems = data.gallery || [];
-
-    const filteredItems = galleryItems.filter((item: any) =>
+    const filteredItems = displayGalleryItems.filter((item: any) =>
         item.category === filter ||
         (filter === "Images" && item.type === "image") ||
         (filter === "Videos" && item.type === "video")

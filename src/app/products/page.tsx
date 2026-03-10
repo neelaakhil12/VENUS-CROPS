@@ -199,35 +199,31 @@ import siteData from "@/data/siteData.json";
 
 function ProductsContent() {
     const searchParams = useSearchParams();
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<any>(siteData);
     const [activeCategory, setActiveCategory] = useState<string>("");
 
     useEffect(() => {
         fetch("/api/data")
             .then(res => res.json())
             .then(json => {
-                if (json.error || !json.products) {
-                    throw new Error(json.error || "Invalid data format");
+                if (!json.error && json.products) {
+                    setData(json);
                 }
-                setData(json);
                 const categoryParam = searchParams.get("category");
                 setActiveCategory(categoryParam || "All");
             })
             .catch(err => {
-                console.warn("API Fetch failed, falling back to static data:", err);
-                setData(siteData);
+                console.warn("API Fetch failed, keeping static data:", err);
                 const categoryParam = searchParams.get("category");
                 setActiveCategory(categoryParam || "All");
             });
     }, [searchParams]);
 
-    if (!data || !data.products || !Array.isArray(data.products)) return <div className="pt-40 text-center text-gray-500">Loading Products Library...</div>;
-
-    const productsData = data.products;
-    const categories = ["All", ...Array.from(new Set(productsData.map((p: any) => p.category)))];
+    const displayProductsData = data?.products || siteData.products || [];
+    const categories = ["All", ...Array.from(new Set(displayProductsData.map((p: any) => p.category)))];
     const filteredProducts = activeCategory === "All"
-        ? productsData
-        : productsData.filter((p: any) => p.category === activeCategory);
+        ? displayProductsData
+        : displayProductsData.filter((p: any) => p.category === activeCategory);
 
     return (
         <>
