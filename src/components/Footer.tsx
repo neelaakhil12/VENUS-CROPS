@@ -108,6 +108,7 @@ const Footer = () => {
                         <p>© {currentYear} VENUS CROP SCIENCE. All rights reserved.</p>
                         <span className="hidden md:inline">|</span>
                         <p>
+                            {/* Developer attribution */}
                             Developed by{" "}
                             <a 
                                 href="https://www.codtechitsolutions.com/" 
