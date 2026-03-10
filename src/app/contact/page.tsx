@@ -175,12 +175,6 @@ export default function Contact() {
                 </div>
             </section>
 
-            {/* Map Placeholder */}
-            <section className="h-96 w-full bg-gray-200 relative">
-                <div className="absolute inset-0 bg-gray-300 animate-pulse flex items-center justify-center text-gray-500 font-bold">
-                    [ Google Map Integration Placeholder ]
-                </div>
-            </section>
         </Layout>
     );
 }
