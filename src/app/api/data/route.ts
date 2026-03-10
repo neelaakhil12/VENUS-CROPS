@@ -14,6 +14,11 @@ export async function GET() {
             category: cat.name,
             varieties: (varieties as any[]).filter(v => v.category_id === cat.id).map(v => ({
                 ...v,
+                suitability: v.suitability,
+                sowing_period: v.sowing_period,
+                spacing: v.spacing,
+                grains_characters: v.grains_characters,
+                cuttings: v.cuttings,
                 benefits: v.benefits ? JSON.parse(v.benefits) : []
             }))
         }));
@@ -82,7 +87,7 @@ export async function POST(request: Request) {
             const categoryId = (catResult as any).insertId;
             for (const v of cat.varieties) {
                 await connection.query(
-                    'INSERT INTO varieties (category_id, name, type, packing, seed_per_acre, height, duration, grain_type, panicle_length, grains_per_panicle, disease_reaction, sowing_time, resistant_to, image, description, benefits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    'INSERT INTO varieties (category_id, name, type, packing, seed_per_acre, height, duration, grain_type, panicle_length, grains_per_panicle, disease_reaction, sowing_time, resistant_to, suitability, sowing_period, spacing, grains_characters, cuttings, image, description, benefits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
                     [
                         categoryId,
                         v.name,
@@ -97,6 +102,11 @@ export async function POST(request: Request) {
                         v.disease_reaction,
                         v.sowing_time,
                         v.resistant_to,
+                        v.suitability,
+                        v.sowing_period,
+                        v.spacing,
+                        v.grains_characters,
+                        v.cuttings,
                         v.image,
                         v.description,
                         v.benefits ? JSON.stringify(v.benefits) : null

@@ -259,6 +259,34 @@ export default function AdminProducts() {
                                     <div className="col-span-2 space-y-1">
                                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Resistant To</label>
                                         <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.resistant_to || ""} onChange={(e) => setEditingProduct({ ...editingProduct, resistant_to: e.target.value })} />
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Suitability</label>
+                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.suitability || ""} onChange={(e) => setEditingProduct({ ...editingProduct, suitability: e.target.value })} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Sowing Period</label>
+                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.sowing_period || ""} onChange={(e) => setEditingProduct({ ...editingProduct, sowing_period: e.target.value })} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Spacing</label>
+                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.spacing || ""} onChange={(e) => setEditingProduct({ ...editingProduct, spacing: e.target.value })} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Grain Characters</label>
+                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.grains_characters || ""} onChange={(e) => setEditingProduct({ ...editingProduct, grains_characters: e.target.value })} />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Cuttings</label>
+                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.cuttings || ""} onChange={(e) => setEditingProduct({ ...editingProduct, cuttings: e.target.value })} />
+                                        </div>
+                                        <div className="col-span-2 space-y-1">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Benefits (Point-wise, one per line)</label>
+                                            <textarea
+                                                className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm min-h-[100px]"
+                                                value={Array.isArray(editingProduct.benefits) ? editingProduct.benefits.join('\n') : (editingProduct.benefits || "")}
+                                                onChange={(e) => setEditingProduct({ ...editingProduct, benefits: e.target.value.split('\n').filter(b => b.trim() !== "") })}
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
