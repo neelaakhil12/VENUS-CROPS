@@ -138,14 +138,43 @@ export default function AdminProducts() {
                                 </div>
                                 <div className="divide-y divide-gray-50">
                                     {cat.varieties?.map((v: any, vIdx: number) => (
-                                        <div key={v.name} className="px-10 py-6 flex items-center justify-between group hover:bg-gray-50/50 transition-all">
-                                            <div className="flex items-center gap-6">
-                                                <div className="w-16 h-16 bg-gray-100 rounded-2xl overflow-hidden border border-gray-100">
+                                        <div key={v.name} className="px-10 py-6 flex items-start justify-between group hover:bg-gray-50/50 transition-all border-b border-gray-50 last:border-0">
+                                            <div className="flex items-start gap-8 w-full max-w-4xl">
+                                                <div className="w-32 h-32 bg-gray-100 rounded-2xl overflow-hidden border border-gray-100 shrink-0 shadow-sm">
                                                     {v.image && <img src={v.image} className="w-full h-full object-cover" />}
                                                 </div>
-                                                <div>
-                                                    <h3 className="font-black text-gray-900 group-hover:text-brand-green transition-colors">{v.name}</h3>
-                                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">{v.type} • {v.packing}</p>
+                                                <div className="flex-grow">
+                                                    <h3 className="text-xl font-black text-gray-900 group-hover:text-brand-green transition-colors mb-1">{v.name}</h3>
+                                                    <div className="text-xs font-bold text-brand-green uppercase tracking-widest mb-4 bg-green-50 inline-block px-3 py-1 rounded-full">{v.type} • {v.packing}</div>
+
+                                                    {/* Technical Details Point-wise list */}
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-6">
+                                                        {v.seed_per_acre && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-brand-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Seed/Acre: <strong className="text-gray-900">{v.seed_per_acre}</strong></span></div>}
+                                                        {v.height && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Height: <strong className="text-gray-900">{v.height}</strong></span></div>}
+                                                        {v.duration && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Duration: <strong className="text-gray-900">{v.duration}</strong></span></div>}
+                                                        {v.grain_type && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Grain Type: <strong className="text-gray-900">{v.grain_type}</strong></span></div>}
+                                                        {v.panicle_length && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Panicle Length: <strong className="text-gray-900">{v.panicle_length}</strong></span></div>}
+                                                        {v.grains_per_panicle && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Grains/Panicle: <strong className="text-gray-900">{v.grains_per_panicle}</strong></span></div>}
+                                                        {v.disease_reaction && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Disease Reaction: <strong className="text-gray-900">{v.disease_reaction}</strong></span></div>}
+                                                        {v.sowing_time && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Sowing Time: <strong className="text-gray-900">{v.sowing_time}</strong></span></div>}
+                                                        {v.resistant_to && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Resistant To: <strong className="text-gray-900">{v.resistant_to}</strong></span></div>}
+                                                        {v.suitability && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Suitability: <strong className="text-gray-900">{v.suitability}</strong></span></div>}
+                                                        {v.sowing_period && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Sowing Period: <strong className="text-gray-900">{v.sowing_period}</strong></span></div>}
+                                                        {v.spacing && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Spacing: <strong className="text-gray-900">{v.spacing}</strong></span></div>}
+                                                        {v.grains_characters && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Grain Characters: <strong className="text-gray-900">{v.grains_characters}</strong></span></div>}
+                                                        {v.cuttings && <div className="flex items-start gap-3"><div className="w-1.5 h-1.5 rounded-full bg-gray-300 mt-2 shrink-0" /><span className="text-sm text-gray-500">Cuttings: <strong className="text-gray-900">{v.cuttings}</strong></span></div>}
+
+                                                        {v.benefits && v.benefits.length > 0 && (
+                                                            <div className="col-span-1 md:col-span-2 mt-2 pt-2 border-t border-gray-100">
+                                                                {v.benefits.map((benefit: string, bIdx: number) => (
+                                                                    <div key={bIdx} className="flex items-start gap-3 mb-1">
+                                                                        <div className="w-1.5 h-1.5 rounded-full bg-brand-green mt-2 shrink-0" />
+                                                                        <span className="text-sm text-gray-900 font-medium">{benefit}</span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="flex gap-2">
@@ -256,37 +285,38 @@ export default function AdminProducts() {
                                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Sowing Time</label>
                                         <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.sowing_time || ""} onChange={(e) => setEditingProduct({ ...editingProduct, sowing_time: e.target.value })} />
                                     </div>
-                                    <div className="col-span-2 space-y-1">
+                                    <div className="space-y-1">
                                         <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Resistant To</label>
                                         <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.resistant_to || ""} onChange={(e) => setEditingProduct({ ...editingProduct, resistant_to: e.target.value })} />
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Suitability</label>
-                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.suitability || ""} onChange={(e) => setEditingProduct({ ...editingProduct, suitability: e.target.value })} />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Sowing Period</label>
-                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.sowing_period || ""} onChange={(e) => setEditingProduct({ ...editingProduct, sowing_period: e.target.value })} />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Spacing</label>
-                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.spacing || ""} onChange={(e) => setEditingProduct({ ...editingProduct, spacing: e.target.value })} />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Grain Characters</label>
-                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.grains_characters || ""} onChange={(e) => setEditingProduct({ ...editingProduct, grains_characters: e.target.value })} />
-                                        </div>
-                                        <div className="space-y-1">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Cuttings</label>
-                                            <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.cuttings || ""} onChange={(e) => setEditingProduct({ ...editingProduct, cuttings: e.target.value })} />
-                                        </div>
-                                        <div className="col-span-2 space-y-1">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Benefits (Point-wise, one per line)</label>
-                                            <textarea
-                                                className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm min-h-[100px]"
-                                                value={Array.isArray(editingProduct.benefits) ? editingProduct.benefits.join('\n') : (editingProduct.benefits || "")}
-                                                onChange={(e) => setEditingProduct({ ...editingProduct, benefits: e.target.value.split('\n').filter(b => b.trim() !== "") })}
-                                            />
-                                        </div>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Suitability</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.suitability || ""} onChange={(e) => setEditingProduct({ ...editingProduct, suitability: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Sowing Period</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.sowing_period || ""} onChange={(e) => setEditingProduct({ ...editingProduct, sowing_period: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Spacing</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.spacing || ""} onChange={(e) => setEditingProduct({ ...editingProduct, spacing: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Grain Characters</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.grains_characters || ""} onChange={(e) => setEditingProduct({ ...editingProduct, grains_characters: e.target.value })} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Cuttings</label>
+                                        <input type="text" className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm" value={editingProduct.cuttings || ""} onChange={(e) => setEditingProduct({ ...editingProduct, cuttings: e.target.value })} />
+                                    </div>
+                                    <div className="col-span-2 space-y-1 pt-4 border-t border-gray-100">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Benefits (Point-wise, one per line)</label>
+                                        <textarea
+                                            className="w-full bg-gray-50 border-0 rounded-xl px-4 py-3 font-bold text-sm min-h-[120px]"
+                                            value={Array.isArray(editingProduct.benefits) ? editingProduct.benefits.join('\n') : (editingProduct.benefits || "")}
+                                            onChange={(e) => setEditingProduct({ ...editingProduct, benefits: e.target.value.split('\n').filter(b => b.trim() !== "") })}
+                                        />
+                                        <p className="text-[10px] text-gray-400 italic">Each line will be displayed as a separate bullet point on the main website.</p>
                                     </div>
                                 </div>
                             </div>
