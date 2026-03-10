@@ -95,7 +95,7 @@ export default function Gallery() {
     return (
         <Layout>
             {/* Hero Section */}
-            <section className="bg-brand-red pt-24 pb-12 text-white relative overflow-hidden">
+            <section className="bg-brand-red pt-36 pb-16 text-white relative overflow-hidden">
                 <div className="container-custom relative z-10 text-center">
                     <h1 data-aos="fade-down" className="text-4xl md:text-6xl font-bold mb-6">Visual Gallery</h1>
                     <p data-aos="fade-up" className="text-lg text-red-100 max-w-2xl mx-auto">

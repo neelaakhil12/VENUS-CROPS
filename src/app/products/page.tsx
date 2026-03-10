@@ -40,6 +40,7 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
     const [isExpanded, setIsExpanded] = useState(false);
 
     const hasExtraDetails = !!(
+        variety.description ||
         variety.panicle_length ||
         variety.grains_per_panicle ||
         variety.disease_reaction ||
@@ -66,10 +67,7 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
             </div>
 
             <div className="p-8 flex flex-col h-full">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-green transition-colors">{variety.name}</h3>
-                {variety.description && (
-                    <p className="text-gray-500 text-sm mb-6 line-clamp-2">{variety.description}</p>
-                )}
+                <h3 className="text-2xl font-bold text-gray-900 mb-6 group-hover:text-brand-green transition-colors">{variety.name}</h3>
 
                 <div className="space-y-4">
                     <div className="flex items-center gap-3 text-gray-600">
@@ -106,7 +104,14 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
                     {/* Detailed Characteristics */}
                     {isExpanded && hasExtraDetails && (
                         <div className="mt-6 pt-6 border-t border-gray-100 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                            <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wider">Key Characters:</h4>
+                            <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wider">Key Characters & Description:</h4>
+
+                            {variety.description && (
+                                <p className="text-gray-600 text-sm italic leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-100">
+                                    {variety.description}
+                                </p>
+                            )}
+
                             {variety.panicle_length && (
                                 <div className="flex items-start gap-3 text-gray-600">
                                     <div className="w-1.5 h-1.5 rounded-full bg-brand-green mt-2 shrink-0" />
@@ -171,18 +176,19 @@ function ProductCard({ variety, idx, category }: { variety: SeedVariety, idx: nu
                     )}
                 </div>
 
-                <div className="mt-8 space-y-3">
+                <div className="mt-8">
                     {hasExtraDetails && (
                         <button
                             onClick={() => setIsExpanded(!isExpanded)}
-                            className="w-full py-3 rounded-xl border-2 border-gray-200 text-gray-600 font-bold hover:border-brand-green hover:text-brand-green transition-all duration-300 flex items-center justify-center gap-2"
+                            className="w-full py-4 rounded-2xl bg-gray-50 text-brand-green font-black uppercase text-xs tracking-widest hover:bg-brand-green hover:text-white transition-all duration-500 flex items-center justify-center gap-3 group/btn shadow-sm"
                         >
-                            {isExpanded ? "View Less" : "View More Details"}
+                            {isExpanded ? (
+                                <>View Less Details</>
+                            ) : (
+                                <>View More Details</>
+                            )}
                         </button>
                     )}
-                    <button className="w-full py-3 rounded-xl bg-brand-green text-white font-bold hover:bg-opacity-90 transition-all duration-300 shadow-md hover:shadow-lg">
-                        Inquire Now
-                    </button>
                 </div>
             </div>
         </div>
@@ -226,7 +232,7 @@ function ProductsContent() {
     return (
         <>
             {/* Banner */}
-            <section className="bg-brand-green pt-24 pb-12 text-white relative overflow-hidden">
+            <section className="bg-brand-green pt-36 pb-16 text-white relative overflow-hidden">
                 <div className="container-custom relative z-10 text-center">
                     <h1 data-aos="fade-down" className="text-4xl md:text-6xl font-bold mb-6">Our Premium Seeds</h1>
                     <p data-aos="fade-up" className="text-lg text-green-50 max-w-2xl mx-auto">
@@ -238,7 +244,7 @@ function ProductsContent() {
             </section>
 
             {/* Filter Buttons */}
-            <section className="py-6 bg-white sticky top-20 z-40 border-b border-gray-100 shadow-sm">
+            <section className="py-6 bg-white sticky top-16 md:top-20 z-40 border-b border-gray-100 shadow-sm">
                 <div className="container-custom">
                     <div className="flex overflow-x-auto whitespace-nowrap gap-4 pb-2 scrollbar-hide md:flex-wrap md:justify-center md:pb-0">
                         {categories.map((cat: any, i: number) => (

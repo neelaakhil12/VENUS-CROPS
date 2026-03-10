@@ -12,7 +12,10 @@ export async function GET() {
         // Reconstruct the JSON structure expected by the frontend
         const products = (categories as any[]).map(cat => ({
             category: cat.name,
-            varieties: (varieties as any[]).filter(v => v.category_id === cat.id)
+            varieties: (varieties as any[]).filter(v => v.category_id === cat.id).map(v => ({
+                ...v,
+                benefits: v.benefits ? JSON.parse(v.benefits) : []
+            }))
         }));
 
         const responseData = {
@@ -79,8 +82,25 @@ export async function POST(request: Request) {
             const categoryId = (catResult as any).insertId;
             for (const v of cat.varieties) {
                 await connection.query(
-                    'INSERT INTO varieties (category_id, name, type, packing, seed_per_acre, height, duration, grain_type, panicle_length, grains_per_panicle, disease_reaction, sowing_time, resistant_to, image, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                    [categoryId, v.name, v.type, v.packing, v.seed_per_acre, v.height, v.duration, v.grain_type, v.panicle_length, v.grains_per_panicle, v.disease_reaction, v.sowing_time, v.resistant_to, v.image, v.description]
+                    'INSERT INTO varieties (category_id, name, type, packing, seed_per_acre, height, duration, grain_type, panicle_length, grains_per_panicle, disease_reaction, sowing_time, resistant_to, image, description, benefits) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                    [
+                        categoryId,
+                        v.name,
+                        v.type,
+                        v.packing,
+                        v.seed_per_acre,
+                        v.height,
+                        v.duration,
+                        v.grain_type,
+                        v.panicle_length,
+                        v.grains_per_panicle,
+                        v.disease_reaction,
+                        v.sowing_time,
+                        v.resistant_to,
+                        v.image,
+                        v.description,
+                        v.benefits ? JSON.stringify(v.benefits) : null
+                    ]
                 );
             }
         }

@@ -25,7 +25,7 @@ export default function Contact() {
     return (
         <Layout>
             {/* Banner */}
-            <section className="bg-brand-green pt-32 pb-20 text-white relative overflow-hidden">
+            <section className="bg-brand-green pt-36 pb-20 text-white relative overflow-hidden">
                 <div className="container-custom relative z-10 text-center">
                     <h1 data-aos="fade-down" className="text-4xl md:text-6xl font-bold mb-6">Contact Us</h1>
                     <p data-aos="fade-up" className="text-lg text-green-10 max-w-2xl mx-auto">
