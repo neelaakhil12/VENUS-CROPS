@@ -11,6 +11,8 @@ const Footer = () => {
         { name: "R&D", href: "/rd" },
         { name: "Gallery", href: "/gallery" },
         { name: "Contact Us", href: "/contact" },
+        { name: "Privacy Policy", href: "/privacy" },
+        { name: "Terms and Conditions", href: "/terms" },
     ];
 
     const services = [
@@ -18,6 +20,8 @@ const Footer = () => {
         { name: "Maize Varieties", href: "/products?category=Maize+Varieties" },
         { name: "Vegetable Varieties", href: "/products?category=Vegetable+Varieties" },
         { name: "Fodder Jowar Varieties", href: "/products?category=Fodder+Jowar+Varieties" },
+        { name: "Seed Research & Development", href: "/rd" },
+        { name: "Quality Testing", href: "/rd" },
     ];
 
     return (
@@ -122,7 +126,7 @@ const Footer = () => {
                     </div>
                     <div className="flex space-x-6">
                         <Link href="/privacy" className="hover:text-brand-green">Privacy Policy</Link>
-                        <Link href="/terms" className="hover:text-brand-green">Terms of Service</Link>
+                        <Link href="/terms" className="hover:text-brand-green">Terms and Conditions</Link>
                     </div>
                 </div>
             </div>
